@@ -1,0 +1,8 @@
+---
+- name: playbook
+  hosts: all
+  tasks:
+    - name: something
+      ansible.builtin.dnf:
+        name: httpd
+        state: latest
