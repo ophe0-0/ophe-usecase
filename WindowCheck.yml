@@ -1,9 +1,9 @@
 ---
-- name: Check running service for linux 
+- name: Check running service for windows 
   hosts: all
   tasks:
     - name: "check status of test-service"
-      win_service:
+      ansible.windows.win_service_info:
         name: test-service
       register: result
       failed_when: result is not defined 
