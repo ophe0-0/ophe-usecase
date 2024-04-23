@@ -11,3 +11,11 @@
     - name: print status of service
       ansible.builtin.debug: 
         var: service_info 
+
+    - name: Check disk space on Windows
+      ansible.windows.win_shell: Get-Volume
+      register: windows_disk_space
+    
+    - name: print disk space on Windows
+      ansible.builtin.debug:
+        vars: windows_disk_space
