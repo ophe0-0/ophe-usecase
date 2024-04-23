@@ -10,4 +10,4 @@
 
     - name: print status of service
       ansible.builtin.debug: 
-        msg: "{{ result }}""
+        msg: "{{ result }}"
