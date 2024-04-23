@@ -18,4 +18,4 @@
     
     - name: print disk space on Windows
       ansible.builtin.debug:
-        vars: windows_disk_space
+        var: windows_disk_space
