@@ -1,0 +1,13 @@
+---
+- name: Check running service for linux 
+  hosts: all
+  tasks:
+    - name: "check status of test-service"
+      win_service:
+        name: test-service
+      register: result
+      failed_when: result is not defined 
+
+    - name: "print status of service"
+      debug: 
+        var: result
