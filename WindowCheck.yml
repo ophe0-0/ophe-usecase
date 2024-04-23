@@ -2,12 +2,12 @@
 - name: Check running service for windows 
   hosts: all
   tasks:
-    - name: check status of test-service
+    - name: Get info of Windows VM
       ansible.windows.win_service_info:
-        name: test-service
-      register: result
+        name: WinRM
+      register: service_info
       
 
     - name: print status of service
       ansible.builtin.debug: 
-        msg: "{{ result }}"
+        var: service_info 
