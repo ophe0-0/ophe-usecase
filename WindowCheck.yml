@@ -6,7 +6,6 @@
       ansible.windows.win_service_info:
         name: WinRM
       register: service_info
-      
 
     - name: print status of service
       ansible.builtin.debug: 
@@ -19,3 +18,17 @@
     - name: print disk space on Windows
       ansible.builtin.debug:
         var: windows_disk_space
+
+    - name: Search-only, return list of found updates (if any), log to C:\ansible_wu.txt
+      ansible.windows.win_updates:
+        category_names: SecurityUpdates
+        state: searched
+        log_path: C:\ansible_wu.txt
+
+    - name: Take KVM snapshot of Windows VM
+      community.libvirt.virt:
+        name: ansible
+        state: snapshot
+        snapshot: "{{ snapshot_name }}"
+      vars:
+        snapshot_name: "snapshot_{{ ansible_date_time.date }}_{{ ansible_date_time.time }}"
