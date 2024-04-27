@@ -26,9 +26,9 @@
         log_path: C:\ansibleChecks.txt
 
     - name: Take KVM snapshot of Windows VM
-     community.libvirt.virt:
-       name: ansible
-       state: snapshot
-       snapshot: "{{ snapshot_name }}"
-     vars:
-       snapshot_name: "snapshot_{{ ansible_date_time.date }}_{{ ansible_date_time.time }}"
+      community.libvirt.virt:
+        name: ansible
+        state: snapshot
+        snapshot: "{{ snapshot_name }}"
+      vars:
+        snapshot_name: "snapshot_{{ ansible_date_time.date }}_{{ ansible_date_time.time }}"
