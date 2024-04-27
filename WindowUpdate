@@ -1,0 +1,9 @@
+---
+- name: Windows rolling update
+  ansible.windows.win_updates:
+    category_names:
+      - CriticalUpdates
+      - SecurityUpdates
+    state: installed
+    reboot: true
+    log_path: C:\ansibleUpdates.txt
