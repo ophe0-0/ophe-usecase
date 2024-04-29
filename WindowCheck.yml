@@ -12,9 +12,14 @@
         var: service_info 
 
     - name: Check disk space on Windows
-      ansible.windows.win_shell: Get-Volume
+      ansible.windows.win_shell: 'Get-PSDrive C | Select-Object Free | ft -HideTableHeaders'
       register: windows_disk_space
-      when: SizeRemaining < 2
+    
+    - block:
+        - name: if not enough space
+          ansible.builtin.debug:
+            msg: "There is less than 2GB of free space"
+      when: windows_disk_space 
     
     - name: Print disk space on Windows
       ansible.builtin.debug:
