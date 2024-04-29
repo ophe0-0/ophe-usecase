@@ -1,0 +1,14 @@
+---
+- name: NXOS Copy running configuration to startup configuration
+  hosts: nxos
+  gather_facts: no
+
+  tasks:
+    - name: NXOS Copy running configuration to startup configuration
+      cisco.nxos.nxos_config:
+        save_when: always
+      register: output
+
+    - name: Display output
+      debug:
+        msg: "{{ output }}"

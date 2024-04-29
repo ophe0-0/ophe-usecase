@@ -1,0 +1,14 @@
+- name: Create new vlan
+  hosts: all
+  gather_facts: no
+
+  vars:
+    survey_vlan_id: "{{ req_vlan_id }}"
+    survey_vlan_name: "{{ req_vlan_name }}"
+
+  tasks:
+    - name: Create new VLAN
+      cisco.nxos.nxos_vlans:
+        config:
+        - vlan_id: "{{ survey_vlan_id }}"
+          name: "{{ survey_vlan_name }}"

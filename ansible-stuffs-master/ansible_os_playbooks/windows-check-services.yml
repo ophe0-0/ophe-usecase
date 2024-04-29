@@ -1,0 +1,11 @@
+---
+- name: Running Pre-checks on Windows after Updates
+  hosts: Prod
+  gather_facts: false
+
+  tasks:
+
+    - name: Check if all Windows Services are up after reboot
+      ansible.windows.win_shell: Get-Service | Where-Object {$_.StartType -eq "Automatic"
+        -and $_.Status -eq "Running"} |  Format-Table -Property Name,DisplayName
+      register: output

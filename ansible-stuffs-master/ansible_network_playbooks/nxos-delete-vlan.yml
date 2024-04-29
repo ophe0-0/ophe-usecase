@@ -1,0 +1,13 @@
+- name: Delete VLAN
+  hosts: nxos
+  gather_facts: no
+
+  vars:
+    survey_vlan_id: "{{ req_vlan_id }}"
+
+  tasks:
+    - name: Delete VLAN
+      cisco.nxos.nxos_vlans:
+        config:
+          - vlan_id: "{{ survey_vlan_id }}"
+        state: deleted

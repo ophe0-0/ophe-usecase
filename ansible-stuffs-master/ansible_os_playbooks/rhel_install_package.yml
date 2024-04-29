@@ -1,0 +1,12 @@
+---
+- name: Installing RHEL defined package
+  hosts: all
+
+  vars:
+    survey_package_name: "{{ package_name }}"
+
+  tasks:
+    - name: Installing package
+      ansible.builtin.dnf:
+        name: "{{ survey_package_name }}"
+        state: present

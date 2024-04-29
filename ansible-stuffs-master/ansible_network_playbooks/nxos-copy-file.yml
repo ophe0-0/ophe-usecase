@@ -1,0 +1,15 @@
+- name: Copying file from scp server to N9K
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Initiate file copy from device
+      cisco.nxos.nxos_file_copy:
+        file_pull: true
+        local_file: n9kv_new_firmware.bin
+#        local_file_directory:
+        remote_file: /home/juinhau/n9kv_new_firmware.bin
+        remote_scp_server: 10.69.151.241
+        remote_scp_server_user: root
+        remote_scp_server_password: redhat123
+        vrf: management

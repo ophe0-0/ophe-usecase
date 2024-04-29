@@ -1,0 +1,28 @@
+---
+- name: Running snapshot on a particular VM
+  hosts: localhost
+
+  vars:
+    datacenter: "{{ survey_datacenter }}"
+    prod_vm_name: "{{ survey_prod_vm_name }}"
+    snapshotname: "{{ survey_snapshot_name }}"
+    snapshotdesc: "{{ survey_snapshot_desc }}"
+
+  tasks:
+    - name: Snapshot a VM on vCenter
+      community.vmware.vmware_guest_snapshot:
+        datacenter: "Datacenter1"
+        folder: "/Datacenter1/vm"
+        name: "juong_bw_prod_24_july_2023"
+        state: present
+#        snapshot_name: "Test_1_Snapshot_1"
+#        description: "Today"
+
+#    - name: Snapshot a VM on vCenter
+#      community.vmware.vmware_guest_snapshot:
+#        datacenter: "{{ survey_datacenter }}"
+#        folder: "/{{ survey_datacenter }}/vm"
+#        name: "{{ survey_prod_vm_name }}"
+#        state: present
+        snapshot_name: "{{ survey_snapshot_name }}"
+        description: "{{ survey_snapshot_desc }}"

@@ -1,0 +1,16 @@
+---
+- name: Show IOS commands
+  hosts: all
+  gather_facts: no
+
+  tasks:
+   - name: Gather IOS facts
+     cisco.ios.ios_facts:
+
+   - name: Print Hostname
+     debug:
+      msg: "Hostname is {{ ansible_net_hostname }}"
+
+   - name: Print Version
+     debug:
+      msg: "Firmware version is {{ ansible_net_version }}"

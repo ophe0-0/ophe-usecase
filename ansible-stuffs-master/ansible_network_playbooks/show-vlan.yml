@@ -1,0 +1,26 @@
+---
+- name: Show IOS Routes
+  hosts: ios
+  gather_facts: no
+
+  tasks:
+   - name: Gather IOS Routes
+     cisco.ios.ios_command:
+       commands: show ip route
+     register: route_output
+
+   - name: Print Routes
+     debug: msg = {{ route_output }}
+
+- name: Show NXOS VLANs
+  hosts: nxos
+  gather_facts: no
+
+  tasks:
+   - name: Gather NXOS VLANs
+     cisco.nxos.nxos_vlans:
+       state: gathered
+     register: vlans_output
+
+   - name: Print NXOS VLANs
+     debug: msg={{ vlans_output }}

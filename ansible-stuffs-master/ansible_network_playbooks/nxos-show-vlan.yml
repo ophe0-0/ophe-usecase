@@ -1,0 +1,17 @@
+- name: Show NXOS VLANs
+  hosts: all
+  serial: 1
+  gather_facts: false
+
+  tasks:
+   - name: Gather VLANs information
+     cisco.nxos.nxos_facts:
+      gather_network_resources:
+      - vlans
+
+   - name: Print NXOS VLANs
+     debug:
+      msg:
+      - "VLAN ID: {{ ansible_network_resources.vlans[ item ].vlan_id }}"
+      - "VLAN Name: {{ ansible_network_resources.vlans[ item ].name }}"
+     loop: "{{ range(0, ansible_network_resources.vlans | length) | list }}"

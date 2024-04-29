@@ -1,0 +1,18 @@
+---
+- name: Aruba AOS Create VLAN
+  hosts: aoscx
+  gather_facts: false
+  collections:
+    - arubanetworks.aoscx
+
+  vars:
+    survey_vlan_id: "{{ req_vlan_id }}"
+    survey_vlan_name: "{{ req_vlan_name }}"
+    ansible_connection: arubanetworks.aoscx.aoscx
+
+  tasks:
+    - name: Create VLAN with description
+      aoscx_vlan:
+        vlan_id: "{{ req_vlan_id }}"
+        name: "{{ req_vlan_name }}"
+        description: This is "{{ req_vlan_name }}"

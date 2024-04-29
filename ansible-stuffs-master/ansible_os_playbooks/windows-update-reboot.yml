@@ -1,0 +1,27 @@
+---
+- name: Updating on Windows Server
+  hosts: Prod
+  gather_facts: false
+
+  vars:
+    category: "{{ survey_category }}"
+    list: "{{ survey_list }}"
+
+  tasks:
+    - name: Update available Windows patches
+      ansible.windows.win_updates:
+        category_names:
+          - UpdateRollups
+#        accept_list:
+#          - 890930
+        reboot: true
+        reboot_timeout: 600
+
+#    - name: Update available Windows patches
+#      ansible.windows.win_updates:
+#        category_names:
+#          - "{{ survey_category }}"
+#        accept_list:
+#          - "{{ survey_list }}"
+#        reboot: true
+#        reboot_timeout: 600

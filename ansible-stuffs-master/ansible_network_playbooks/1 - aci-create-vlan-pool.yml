@@ -1,0 +1,73 @@
+- name: Create new ACI VLAN pool
+  hosts: aci
+  gather_facts: false
+  connection: local
+
+  vars:
+    username: admin
+    password: redhat123
+    hostname: 10.69.151.244
+    survey_vlan_pool_name: "{{ req_vlan_pool_name }}"
+    survey_vlan_block_start: "{{ req_vlan_block_start }}"
+    survey_vlan_block_end: "{{ req_vlan_block_end }}"
+    survey_domain_name: "{{ req_domain_name }}"
+    survey_aep_name: "{{ req_aep_name }}"
+#    survey_vlan_pool_name: production
+#    survey_vlan_block_start: 10
+#    survey_vlan_block_end: 20
+
+  tasks:
+    - name: Add a new VLAN pool
+      cisco.aci.aci_vlan_pool:
+        host: "{{ hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        pool: "{{ survey_vlan_pool_name }}"
+        pool_allocation_mode: static
+        description: "{{ survey_vlan_pool_name }} VLANs"
+        state: present
+        validate_certs: false
+#      delegate_to: localhost
+
+    - name: Add a new VLAN encap block
+      cisco.aci.aci_vlan_pool_encap_block:
+        host: "{{ hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        pool: "{{ survey_vlan_pool_name }}"
+        pool_allocation_mode: static
+        block_start: "{{ survey_vlan_block_start }}"
+        block_end: "{{ survey_vlan_block_end }}"
+        state: present
+        validate_certs: false
+#      delegate_to: localhost
+
+#    - name: Query all VLAN pools
+#      cisco.aci.aci_vlan_pool:
+#        host: "{{ hostname }}"
+#        user: "{{ username }}"
+#        password: "{{ password }}"
+#        state: query
+#        validate_certs: false
+#      register: query_vlan_pool_result
+#      delegate_to: localhost
+
+#    - name: Query a VLAN pool for encap blocks
+#      cisco.aci.aci_vlan_pool_encap_block:
+#        host: "{{ hostname }}"
+#        user: "{{ username }}"
+#        password: "{{ password }}"
+#        pool: "{{ survey_vlan_pool_name }}"
+#        pool_allocation_mode: static
+#        state: query
+#        validate_certs: false
+#      delegate_to: localhost
+#      register: query_vlan_encap_result
+
+#    - name: Print VLAN Pools
+#      ansible.builtin.debug:
+#        var: query_vlan_pool_result
+
+#    - name: Print VLAN Encap Blocks
+#      ansible.builtin.debug:
+#        var: query_vlan_encap_result

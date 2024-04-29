@@ -1,0 +1,14 @@
+---
+- name: IOS Copy running configuration to startup configuration
+  hosts: ios
+  gather_facts: false
+
+  tasks:
+    - name: IOS Copy running configuration to startup configuration
+      cisco.ios.ios_config:
+        save_when: always
+      register: output
+
+    - name: Display output
+      ansible.builtin.debug:
+        msg: "{{ output }}"

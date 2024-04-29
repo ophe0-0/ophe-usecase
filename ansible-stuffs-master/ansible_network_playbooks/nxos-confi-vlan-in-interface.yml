@@ -1,0 +1,24 @@
+- name: Configure VLAN into interfaces
+  hosts: all
+  gather_facts: false
+
+  vars:
+    survey_interface1_name: "{{ req_interface1_name }}"
+    survey_vlan_id1: "{{ req_vlan_id1 }}"
+    survey_interface2_name: "{{ req_interface2_name }}"
+    survey_vlan_id2: "{{ req_vlan_id2 }}"
+
+  tasks:
+    - name: Configure new VLAN in interface 1
+      cisco.nxos.nxos_l2_interfaces:
+        config:
+          - name: "{{ survey_interface1_name }}"
+            access:
+              vlan: "{{ survey_vlan_id1 }}"
+
+    - name: Configure new VLAN in interface 2
+      cisco.nxos.nxos_l2_interfaces:
+        config:
+          - name: "{{ survey_interface2_name }}"
+            access:
+              vlan: "{{ survey_vlan_id2 }}"

@@ -1,0 +1,16 @@
+- name: Report incident to ServiceNow
+  hosts: all
+  sources:
+    - ansible.eda.kafka:
+        host: 10.69.151.240
+        topic: eda
+        port: 9092
+  rules:
+    - name: Check route count drops
+      condition:
+        all:
+          - event.fields.routeCount < 100
+          - event.tags.vrfName == "prod"
+      actions:
+        - run_playbook:
+            name: report_event.yaml

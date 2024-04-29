@@ -1,0 +1,9 @@
+---
+- name: RHEL Patching Packages to latest patch
+  hosts: all
+
+  tasks:
+    - name: Update all packages
+      ansible.builtin.package:
+        name: '*'
+        state: latest

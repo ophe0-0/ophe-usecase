@@ -1,0 +1,24 @@
+- name: Gather ACI system details
+  hosts: aci
+  gather_facts: false
+  connection: local
+
+  vars:
+    username: admin
+    password: redhat123
+    hostname: 10.69.151.244
+
+  tasks:
+    - name: Gather ACI gather facts
+      cisco.aci.aci_rest:
+        host: "{{ hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        path: /api/node/mo/topology/pod-1/node-101/sys/phys-[eth1/1].json
+        method: get
+      register: aci_result
+
+    - name: Print aci_result
+      ansible.builtin.debug:
+        var: aci_result

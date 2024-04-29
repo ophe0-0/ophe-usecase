@@ -1,0 +1,33 @@
+---
+- name: Starting a VM
+  hosts: localhost
+
+  vars:
+    vm_datacenter: "{{ survey_datacenter }}"
+    vm_cluster: "{{ survey_cluster }}"
+    test_vm_name: "{{ survey_test_vm_name }}"
+
+  tasks:
+#    - name: Starting a VM on vCenter
+#      community.vmware.vmware_guest:
+#        validate_certs: false
+#        datacenter: "Datacenter1"
+#        cluster: "cluster1-HA"
+#        name: "juong_bw_test_25_July_2023"
+#        state: poweredon
+
+#    - name: Pause for VM to come up
+#      ansible.builtin.pause:
+#        minutes: 1
+
+    - name: Starting a VM on vCenter
+      community.vmware.vmware_guest:
+        validate_certs: false
+        datacenter: "{{ vm_datacenter }}"
+        cluster: "{{ vm_cluster }}"
+        name: "{{ test_vm_name }}"
+        state: poweredon
+
+#    - name: Pause for VM to come up
+#      ansible.builtin.pause:
+#        minutes: 1

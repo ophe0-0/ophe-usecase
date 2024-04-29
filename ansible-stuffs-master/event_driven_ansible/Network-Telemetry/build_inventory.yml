@@ -1,0 +1,22 @@
+- name: Persist telemetry configuration as host_vars
+  hosts: all
+  gather_facts: false
+  become: yes
+  become_method: enable
+
+  tasks:
+  - name: Run Telemetry Manager
+    ansible.builtin.include_role:
+      name: network.telemetry.run
+    vars:
+      ansible_network_os: cisco.nxos.nxos
+      operations:
+        - name: persist
+      data_store:
+#        scm:
+#          origin:
+#            url: "/path/to/remote/scm"
+#            token: "superSecretToken"
+#            user:
+#              name: scm_user_name
+        local: "~/telemetry_backup"

@@ -1,0 +1,10 @@
+---
+- name: Windows Powershell test
+  host: xxx
+
+  task: 
+  - name: Powershell command to test
+    ansible.windows.win_powershell:
+    script: |
+      echo "Hello World"
+      

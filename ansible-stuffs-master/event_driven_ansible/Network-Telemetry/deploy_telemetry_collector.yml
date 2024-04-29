@@ -1,0 +1,12 @@
+- name: Deploy telemetry collector
+  hosts: all
+  gather_facts: true
+  become: yes
+  
+  tasks:
+  - name: Run Telemetry Manager
+    ansible.builtin.include_role:
+      name: network.telemetry.run
+    vars:
+      operations:
+        - name: deploy_collector

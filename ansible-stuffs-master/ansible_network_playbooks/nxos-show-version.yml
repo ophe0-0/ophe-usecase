@@ -1,0 +1,15 @@
+- name: Show NXOS commands
+  hosts: all
+  gather_facts: false
+
+  tasks:
+   - name: Gather NXOS facts
+     cisco.nxos.nxos_facts:
+
+   - name: Print Hostname
+     debug:
+      msg: "Hostname is {{ ansible_net_hostname }}"
+
+   - name: Print Version
+     debug:
+      msg: "Firmware version is {{ ansible_net_version }}"

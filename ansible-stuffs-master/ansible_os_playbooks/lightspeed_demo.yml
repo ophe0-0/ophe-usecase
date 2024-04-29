@@ -1,0 +1,37 @@
+---
+- name: Deploy RHEL Monitoring
+  hosts: monitoring
+  become: true
+
+  tasks:
+    # 
+    - name: Install cockpit package
+      ansible.builtin.package:
+        name: cockpit
+        state: present
+    
+    # - name: Copy cockpit.conf to /etc/cockpit/cockpit.conf
+    - name: Copy cockpit.conf to default location
+      ansible.builtin.copy:
+        src: /etc/cockpit/cockpit.conf
+        dest: /etc/cockpit/cockpit.conf
+        remote_src: true
+        owner: root
+        group: root
+        mode: '0644'
+     
+    # - name: Start the cockpit service
+
+    # - name: Wait 15 seconds port 9090
+
+    - name: configure vlan 100 in cisco nxos
+    
+  
+    
+    
+
+        
+    -
+
+
+    

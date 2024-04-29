@@ -1,0 +1,19 @@
+---
+- name: Read messages from a kafka topic and act on them
+  hosts: kafka
+  ## Define our source for events
+  sources:
+    - ansible.eda.kafka:
+        host: kafka
+        port: 9092
+        topic: connect-dnf
+        group_id:
+
+  rules:
+    - name: receive event
+      condition: event.schema.type == "string"
+      ## Define the action we should take should the condition be met
+      action:
+        run_job_template:
+          name: kafka_remediation_playbook
+      delegate_to: localhost

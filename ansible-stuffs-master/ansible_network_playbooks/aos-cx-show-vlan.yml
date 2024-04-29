@@ -1,0 +1,19 @@
+---
+- name: Aruba AOS Show VLAN 
+  hosts: aoscx
+  gather_facts: false
+  collections:
+    - arubanetworks.aoscx
+
+  vars:
+    ansible_connection: network_cli
+
+  tasks:
+    - name: Executing show VLAN command
+      aoscx_command:
+        commands: ['show vlan']
+      register: show_vlan_output
+
+    - name: Showing show VLAN output
+      debug:
+        var: show_vlan_output

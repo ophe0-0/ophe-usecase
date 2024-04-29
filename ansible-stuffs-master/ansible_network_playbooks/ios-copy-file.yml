@@ -1,0 +1,12 @@
+---
+- name: Copy IOS firmware from SCP Server
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Copy file from SCP server
+      cisco.ios.ios_command:
+        commands:
+          - command: 'copy scp://root:redhat123@10.69.151.241/csr1000v_new_firmware.bin bootflash: vrf mgmt'
+            prompt: 'Destination filename [csr1000v_new_firmware.bin]?'
+            answer: "\r"

@@ -1,0 +1,120 @@
+- name: Create ACI interface and switch policy
+  hosts: aci
+  gather_facts: false
+  connection: local
+
+  vars:
+    username: admin
+    password: redhat123
+    hostname: 10.69.151.244
+    survey_vlan_pool_name: "{{ req_vlan_pool_name }}"
+    survey_vlan_block_start: "{{ req_vlan_block_start }}"
+    survey_vlan_block_end: "{{ req_vlan_block_end }}"
+    survey_domain_name: "{{ req_domain_name }}"
+    survey_aep_name: "{{ req_aep_name }}"
+    survey_cdp_name: CDP-ACI-Policy
+    survey_lldp_name: LLDP-ACI-Policy
+    survey_stp_name: STP-ACI-Policy
+    survey_leaf_profile_name: "{{ req_leaf_profile_name }}"
+    survey_leaf_selector_name: "{{ req_leaf_selector_name }}"
+    survey_leaf_access_name: "{{ req_leaf_access_name }}"
+    survey_interface_profile_name: "{{ req_interface_profile_name }}"
+
+  tasks:
+    - name: Create ACI CDP policy
+      cisco.aci.aci_interface_policy_cdp:
+        name: "{{ survey_cdp_name }}"
+        host: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        state: present
+
+    - name: Create ACI LLDP policy
+      cisco.aci.aci_interface_policy_lldp:
+        host: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        lldp_policy: "{{ survey_lldp_name }}"
+        validate_certs: false
+        state: present
+
+    - name: Create ACI spanning tree policy
+      cisco.aci.aci_interface_policy_spanning_tree:
+        host: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        stp_policy: "{{ survey_stp_name }}"
+
+    - name: Create Leaf Access Port Policy Group
+      cisco.aci.aci_interface_policy_leaf_policy_group:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        policy_group: "{{ survey_leaf_access_name }}"
+        lag_type: leaf
+        cdp_policy: "{{ survey_cdp_name }}"
+        lldp_policy: "{{ survey_lldp_name }}"
+        stp_interface_policy: "{{ survey_stp_name }}"
+        aep: "{{ survey_aep_name }}"
+        validate_certs: false
+
+    - name: Create a new leaf interface profile
+      cisco.aci.aci_interface_policy_leaf_profile:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        leaf_interface_profile: "{{ survey_interface_profile_name }}"
+        description: created by Ansible
+        validate_certs: false
+        state: present
+
+    - name: Associate leaf interface profile with leaf access port policy Group
+      cisco.aci.aci_access_port_to_interface_policy_leaf_profile:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        interface_profile: "{{ survey_interface_profile_name }}"
+        access_port_selector: eth1
+        port_blk: eth1
+        from_port: 1
+        to_port: 3
+        policy_group: "{{ survey_leaf_access_name }}"
+        state: present
+        validate_certs: false
+
+    - name: Associate an access port block (multiple ports) to an interface selector
+      cisco.aci.aci_access_port_block_to_access_port:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        interface_profile: "{{ survey_interface_profile_name }}"
+        access_port_selector: eth1
+        port_blk: eth1
+        from_port: 1
+        to_port: 3
+        state: present
+        validate_certs: false
+
+    - name: Create a ACI leaf profile
+      cisco.aci.aci_switch_policy_leaf_profile:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        leaf_profile: "{{ survey_leaf_profile_name }}"
+        description: created by Ansible
+        validate_certs: false
+
+    - name: Adding leaf selector to leaf profile
+      cisco.aci.aci_switch_leaf_selector:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        leaf_profile: "{{ survey_leaf_profile_name }}"
+        leaf: "{{ survey_leaf_selector_name }}"
+        leaf_node_blk: 101
+        from: 101
+        to: 101
+        state: present
+        validate_certs: false

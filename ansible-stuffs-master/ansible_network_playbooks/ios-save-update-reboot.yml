@@ -1,0 +1,26 @@
+---
+- name: IOS Copy running configuration to startup configuration
+  hosts: all
+  gather_facts: false
+
+  tasks:
+#    - name: Save configuration for IOS-XE
+#      cisco.ios.ios_config:
+#        save_when: always
+
+    - name: Update to new IOS firmware
+      cisco.ios.ios_config:
+        lines:
+          - boot system flash:/csr1000v-rpboot.17.03.05.SPA.pkg
+          - no boot system
+
+    - name: Save configuration for IOS-XE
+      cisco.ios.ios_config:
+        save_when: always
+
+    - name: Reboot CSR1000V
+      cisco.ios.ios_command:
+        commands:
+          - command: "reload"
+            prompt: "Proceed with reload"
+            answer: "\r"

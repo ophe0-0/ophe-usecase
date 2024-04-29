@@ -1,0 +1,37 @@
+- name: Create ACI AEP and phyiscal domain binding
+  hosts: aci
+  gather_facts: false
+  connection: local
+
+  vars:
+    username: admin
+    password: redhat123
+    hostname: 10.69.151.244
+    survey_vlan_pool_name: "{{ req_vlan_pool_name }}"
+    survey_vlan_block_start: "{{ req_vlan_block_start }}"
+    survey_vlan_block_end: "{{ req_vlan_block_end }}"
+    survey_domain_name: "{{ req_domain_name }}"
+    survey_aep_name: "{{ req_aep_name }}"
+
+  tasks:
+    - name: Add a new AEP
+      cisco.aci.aci_aep:
+        host: "{{ hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        aep: "{{ survey_aep_name }}"
+        description: "default for {{ survey_aep_name }}"
+        infra_vlan: true
+        state: present
+        validate_certs: false
+
+    - name: Add physical domain to AEP
+      cisco.aci.aci_aep_to_domain:
+        host: "{{ hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        aep: "{{ survey_aep_name }}"
+        domain: "{{ survey_domain_name }}"
+        domain_type: phys
+        state: present
+        validate_certs: false

@@ -1,0 +1,20 @@
+- name: Deploy telemetry configuration from host_vars
+  hosts: all
+  gather_facts: false
+
+  tasks:
+  - name: Run Telemetry Manager
+    ansible.builtin.include_role:
+      name: network.telemetry.run
+    vars:
+      ansible_network_os: cisco.nxos.nxos
+      operations:
+        - name: deploy
+      data_store:
+        local: "~/telemetry_backup"
+#        scm:
+#          origin:
+#            url: "/path/to/remote/scm"
+#            token: "superSecretToken"
+#            user:
+#              name: scm_user_name

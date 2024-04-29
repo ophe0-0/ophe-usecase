@@ -1,0 +1,42 @@
+---
+- name: Analyze the dnf event.payload
+  hosts: all
+  gather_facts: false
+  vars:
+    rpm_black_list:
+      - telnet
+      - traceroute
+
+  tasks:
+  - ansible.builtin.set_fact:
+      event_content: "{{ event.payload.replace('\"', '') }}"
+
+  - ansible.builtin.debug:
+      msg: "{{ event_content }}"
+
+  - name: Check if rpm listed in blacklist
+    ansible.builtin.command: /usr/bin/python3
+    args:
+      stdin: |
+        import re
+        in_blacklist = False
+        search_pattern = "^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{4}\s+DEBUG\s+Installed:\s+(.+?)$"
+
+        try:
+          installed_rpm = re.search(search_pattern, "{{ event_content }}").group(1).strip()
+        except:
+          print('no package installed')
+        else:
+          for rpm in {{ rpm_black_list}}:
+            if re.search(rpm, installed_rpm):
+            in_blacklist = True
+            print(installed_rpm)
+
+        print(in_blacklist)
+    register: results
+
+  - name: Remove the RPM in blacklist
+    ansible.builtin.yum:
+      name: "{{ results.stdout_lines[0] }}"
+      state: absent
+    when: results.stdout_lines[-1] | bool

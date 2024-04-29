@@ -1,0 +1,16 @@
+---
+- name: IOS Backup Config 
+  hosts: ios
+  gather_facts: no
+
+  tasks:
+    - name: Create backup locally
+      cisco.ios.ios_config:
+        backup: yes
+        backup_options:
+          dir_path: /opt/backups
+      register: config_output
+
+    - name: Output the backup information.
+      debug:
+        var: config_output

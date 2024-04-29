@@ -1,0 +1,13 @@
+---
+collections:
+  - ansible.netcommon
+  - cisco.ios
+  - cisco.nxos
+  - cisco.aci
+  - cisco.iosxr
+  - cisco.asa
+  - cisco.intersight
+  - cisco.meraki
+  - cisco.mso
+  - cisco.nso
+  - cisco.ucs  

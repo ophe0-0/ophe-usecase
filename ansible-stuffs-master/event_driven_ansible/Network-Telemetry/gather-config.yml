@@ -1,0 +1,12 @@
+- name: Gather telemetry configuration
+  hosts: all
+  gather_facts: false
+
+  tasks:
+  - name: Run Telemetry Manager
+    ansible.builtin.include_role:
+      name: network.telemetry.run
+    vars:
+      ansible_network_os: cisco.nxos.nxos
+      operations:
+        - name: gather

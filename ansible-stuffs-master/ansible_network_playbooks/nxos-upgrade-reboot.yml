@@ -1,0 +1,17 @@
+- name: Install new NXOS image and reboot
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Save current running configs for NX-OS
+      cisco.nxos.nxos_command:
+        commands: copy running-config startup-config
+
+    - name: Install OS on N9k
+      check_mode: false
+      cisco.nxos.nxos_install_os:
+        system_image_file: nxos.7.0.3.I7.10.bin
+
+    - name: Reboot switch after installing OS
+      cisco.nxos.nxos_reboot:
+        confirm: true

@@ -1,0 +1,114 @@
+- name: Create ACI Tenant, VRF, BD, EPG, Contracts
+  hosts: aci
+  gather_facts: false
+  connection: local
+
+  vars:
+    username: admin
+    password: redhat123
+    hostname: 10.69.151.244
+
+    survey_aep_name: "{{ req_aep_name }}"
+    survey_tenant_name: "{{ req_tenant_name }}"
+    survey_vrf_name: "{{ req_vrf_name }}"
+    survey_bridge_domain_name: "{{ req_bridge_domain_name }}"
+    survey_app_profile_name: "{{ req_app_profile_name }}"
+    survey_epg_name: "{{ req_app_epg_name }}"
+    survey_encap_id: 100
+    survey_contracts_name: "{{ req_contracts_name }}"
+
+  tasks:
+    - name: Create ACI tenant
+      cisco.aci.aci_tenant:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        tenant: "{{ survey_tenant_name }}"
+        description: created by Ansible
+        state: present
+
+    - name: Create VRF for ACI tenant
+      cisco.aci.aci_vrf:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        tenant: "{{ survey_tenant_name }}"
+        vrf: "{{ survey_vrf_name }}"
+        description: created by Ansible
+        state: present
+
+    - name: Create ACI bridge domain (BD)
+      cisco.aci.aci_bd:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        tenant: "{{ survey_tenant_name }}"
+        vrf: "{{ survey_vrf_name }}"
+        bd: "{{ survey_bridge_domain_name }}"
+        description: created by Ansible
+        state: present
+
+    - name: Create application profile
+      cisco.aci.aci_ap:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        tenant: "{{ survey_tenant_name }}"
+        ap: "{{ survey_app_profile_name }}"
+        description: created by Ansible
+        state: present
+
+    - name: Create ACI Application EPG
+      cisco.aci.aci_epg:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        tenant: "{{ survey_tenant_name }}"
+        ap: "{{ survey_app_profile_name }}"
+        epg: "{{ survey_epg_name }}"
+        description: created by Ansible
+        bd: "{{ survey_bridge_domain_name }}"
+        preferred_group: true
+        state: present
+
+    - name: Associate ACI AAEP with EPG
+      cisco.aci.aci_aep_to_epg:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        aep: "{{ survey_aep_name }}"
+        tenant: "{{ survey_tenant_name }}"
+        ap: "{{ survey_app_profile_name }}"
+        epg: "{{ survey_epg_name }}"
+        encap_id: "{{ survey_encap_id }}"
+        interface_mode: access
+        state: present
+
+    - name: Create ACI Contracts
+      cisco.aci.aci_contract:
+        hostname: "{{ hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        tenant: "{{ survey_tenant_name }}"
+        contract_name: "{{ survey_contracts_name }}"
+        description: communication between web and database
+        state: present
+
+#    - name: Apply ACI contracts to VRF
+#      cisco.aci.aci_contract_subject:
+#        hostname: "{{ hostname }}"
+#        username: "{{ username }}"
+#        password: "{{ password }}"
+#        validate_certs: false
+#        tenant: "{{ survey_tenant_name }}"
+#        contract: "{{ survey_contracts_name }}"
+#        subject: "{{ _subject_ }}"
+#        reverse_filter: true
+#        state: present
