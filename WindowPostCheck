@@ -1,0 +1,27 @@
+---
+- name: Post Patch Checks
+  hosts: all
+  tasks: 
+
+  - name: Check running services
+    ansible.windows.win_service_info:
+      name: WinRM
+    register: service_info
+
+  - name: Return list of found updates (if any), log to C:\ansible.txt
+    ansible.windows.win_updates:
+      category_names: SecurityUpdates
+      state: downloaded
+      log_path: C:\ansible.txt
+
+  - name: compare pre chk vs post chk
+    ansible.builtin.copy:
+      src: C:\ansibleChecks.txt
+      dest: C:\ansible.txt
+    check_mode: yes
+    diff: yes
+
+  - name: Generate a Post-Patch HTML report
+    ansible.builtin.template:
+      src: postreport.j2
+      dest: /postreport.txt

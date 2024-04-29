@@ -2,7 +2,7 @@
 - name: Check running service for windows 
   hosts: all
   tasks:
-    - name: Get info of Windows VM
+    - name: Get running services of Windows VM
       ansible.windows.win_service_info:
         name: WinRM
       register: service_info
@@ -14,12 +14,13 @@
     - name: Check disk space on Windows
       ansible.windows.win_shell: Get-Volume
       register: windows_disk_space
+      when: SizeRemaining < 2
     
-    - name: print disk space on Windows
+    - name: Print disk space on Windows
       ansible.builtin.debug:
         var: windows_disk_space
 
-    - name: Search-only, return list of found updates (if any), log to C:\ansible_wu.txt
+    - name: Search-only, return list of found updates (if any), log to C:\ansibleChecks.txt
       ansible.windows.win_updates:
         category_names: SecurityUpdates
         state: searched

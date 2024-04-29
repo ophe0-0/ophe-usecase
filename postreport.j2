@@ -1,0 +1,51 @@
+<head>
+    <title>Post-Patch Report</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Post-Patch Report</h1>
+    
+    <h2>System Information</h2>
+    <table>
+        <tr>
+            <th>Hostname</th>
+            <th>IP</th>
+            <th>Windows Version</th>
+        </tr>
+        {% for system in systems %}
+        <tr>
+            <td>{{ system.hostname }}</td>
+            <td>{{ system.ip }}</td>
+            <td>{{ system.windows_version }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <h2>Windows KBs Status</h2>
+    <table>
+        <tr>
+            <th>KB</th>
+            <th>Status</th>
+        </tr>
+        {% for kb in kbs %}
+        <tr>
+            <td>{{ kb.name }}</td>
+            <td>{{ kb.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
