@@ -29,9 +29,9 @@
         </tr>
         {% for system in systems %}
         <tr>
-            <td>{{ system.hostname }}</td>
-            <td>{{ system.ip }}</td>
-            <td>{{ system.windows_version }}</td>
+            <td>{{ ansible_hostname }}</td>
+            <td>{{ ansible_interfaces.ipv4.address }}</td>
+            <td>{{ ansible_powershell_version }}</td>
         </tr>
         {% endfor %}
     </table>
