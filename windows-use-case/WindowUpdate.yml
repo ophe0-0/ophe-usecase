@@ -5,9 +5,7 @@
 
   - name: Run updates on windows
     ansible.windows.win_updates:
-      category_names:
-        - CriticalUpdates
-        - SecurityUpdates
+      category_names: '*'
       state: installed
       reboot: true
       log_path: C:\ansibleUpdates.txt
