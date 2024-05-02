@@ -1,6 +1,6 @@
 ---
 - name: Check running service for windows 
-  hosts: windows
+  hosts: all
 
   tasks:
     - name: Get running services of Windows VM
