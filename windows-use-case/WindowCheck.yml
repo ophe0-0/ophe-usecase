@@ -33,7 +33,7 @@
 
     - name: Take KVM snapshot of Windows VM
       community.libvirt.virt:
-        name: ansible
+        name: WIN-VGPG44RLACLL
         state: snapshot
         snapshot: "{{ snapshot_name }}"
       vars:
