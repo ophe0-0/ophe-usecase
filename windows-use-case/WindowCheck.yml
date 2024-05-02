@@ -20,7 +20,7 @@
     - name: if not enough space
       ansible.builtin.debug:
         msg: "There is less than 2GB of free space"
-      when: windows_disk_space_int > "{{ '2 GB'|human_to_bytes }}"
+      when: windows_disk_space > "{{ '2 GB'|human_to_bytes }}"
     
     - name: Print disk space on Windows
       ansible.builtin.debug:
