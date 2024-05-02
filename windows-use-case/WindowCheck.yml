@@ -24,11 +24,7 @@
     - name: if not enough space
       ansible.builtin.debug:
         msg: "There is less than 2GB of free space"
-      when: windows_disk_space_int > '2000000000'
-    
-    - name: Print disk space on Windows
-      ansible.builtin.debug:
-        var: windows_disk_space
+      when: windows_disk_space_int < '2000000000'
 
     - name: Search-only, return list of found updates 
       ansible.windows.win_updates:
@@ -41,7 +37,7 @@
         msg: |
           {% for k in ansible_checks %}
           {{ ansible_checks[k].title }}
-          kb: {{ ansible_checks.kb }}
+          kb: {{ ansible_checks[k].kb }}
           Installed status: {{ ansible_checks.is_installed }}
           {% endfor %}
 
