@@ -18,7 +18,7 @@
       register: windows_disk_space
       
     - name:convert disk space to integer
-      ansible.builtin.set_fact:
+      set_fact:
         windows_disk_space_int: "{{ windows_disk_space | int }}"
     
     - name: if not enough space
