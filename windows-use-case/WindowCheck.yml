@@ -18,10 +18,14 @@
       register: windows_disk_space
     
     - block:
+        - name:convert disk space to integer
+          ansible.builtin.set_fact:
+            windows_disk_space_int: "{{ windows_disk_space | int }}"
+
         - name: if not enough space
           ansible.builtin.debug:
             msg: "There is less than 2GB of free space"
-          when: windows_disk_space.size > 2000000000
+          when: windows_disk_space_int > 2000000000
     
     - name: Print disk space on Windows
       ansible.builtin.debug:
