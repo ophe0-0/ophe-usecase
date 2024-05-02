@@ -1,17 +1,12 @@
 ---
 - name: Check running service for windows 
-  hosts: all
-  vars:
-    ansible_python_interpreter: /usr/bin/python
+  hosts: windows
+
   tasks:
     - name: Get running services of Windows VM
       ansible.windows.win_service_info:
-        name: WinRM
       register: service_info
-
-    - name: print status of service
-      ansible.builtin.debug: 
-        var: service_info 
+      when: service_info.services == started
 
     - name: Check disk space on Windows
       ansible.windows.win_shell: 'Get-PSDrive C | Select-Object Free | ft -HideTableHeaders'
@@ -21,23 +16,24 @@
         - name: if not enough space
           ansible.builtin.debug:
             msg: "There is less than 2GB of free space"
-      when: windows_disk_space > '2000000000'
+      when: windows_disk_space.size > '2000000000'
     
     - name: Print disk space on Windows
       ansible.builtin.debug:
         var: windows_disk_space
 
-    - name: Search-only, return list of found updates (if any), log to C:\ansibleChecks.txt
+    - name: Search-only, return list of found updates 
       ansible.windows.win_updates:
-        category_names: SecurityUpdates
+        category_names: '*'
         state: searched
-        log_path: C:\ansibleChecks.txt
+      register: ansible_checks
+  
+    - name: report results
+      ansible.builtin.debug:
+        msg: 
+        {{ ansible_checks.title }}
+        kb: {{ ansible_checks.kb }}
+        Installed status: {{ ansible_checks.is_installed }}
 
-    - name: Take KVM snapshot of Windows VM
-      community.libvirt.virt:
-        name: WIN-VGPG44RLACLL
-        state: snapshot
-        snapshot: "{{ snapshot_name }}"
-      vars:
-        snapshot_name: "snapshot_{{ ansible_date_time.date }}_{{ ansible_date_time.time }}"
+
 
