@@ -31,11 +31,11 @@
     - name: report results
       ansible.builtin.debug:
         msg: |
-        {% for k in ansible_checks %}
-        {{ ansible_checks[k].title }}
-        'kb:' {{ ansible_checks.kb }}
-        'Installed status:' {{ ansible_checks.is_installed }}
-        {% endfor %}
+          {% for k in ansible_checks %}
+          {{ ansible_checks[k].title }}
+          kb: {{ ansible_checks.kb }}
+          Installed status: {{ ansible_checks.is_installed }}
+          {% endfor %}
 
 
 
