@@ -15,6 +15,7 @@
     - name: Take VM Snapshot
       ansible.builtin.shell: "sudo virsh snapshot-create-as --domain {{ kvm_vm_name }} --name {{ kvm_vm_name }}.datetime.end_time"
       register: vm_snapshot_result
+      delegate_to: Windows
       ignore_errors: true
 
 
