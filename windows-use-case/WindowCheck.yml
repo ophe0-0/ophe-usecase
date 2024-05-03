@@ -5,12 +5,11 @@
   tasks:
     - name: Get running services of Windows VM
       ansible.windows.win_service_info:
-      register: service_info      
+      register: service_info  
 
-     
     - name: Create a list of running services
       ansible.builtin.set_fact:
-        service_info_running: "{{ service_info.services | selectattr('state', 'equalto', 'started') | list }}"
+        service_info_running: "{{ service_info.services | selectattr('state', 'equalto', 'started') | map(attribute='name') | list }}"
     
     - name: Print running service on Windows
       ansible.builtin.debug:
