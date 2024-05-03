@@ -7,6 +7,6 @@
   tasks:
 
     - name: Take VM Snapshot
-      ansible.builtin.shell: "virsh snapshot-create-as --domain 'win2019' --name 'windowSS-1'"
+      ansible.builtin.shell: "sudo virsh snapshot-create-as --domain 'win2019' --name 'windowSS-1'"
       register: vm_snapshot_result
       ignore_errors: true
