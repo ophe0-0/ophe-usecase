@@ -13,8 +13,9 @@
       service_info2_running: "{{ service_info2.services | selectattr('state', 'equalto', 'started') | map(attribute='display_name') | list }}"
 
   - name: compare pre chk vs post chk
-    ansible.builtin.debug: 
-      diff: "{{ service_info_running | ansible.builtin.intersect(service_info2_running) }}"
+    ansible.utils.fact_diff: 
+      before: "{{ before | service_info_running }}"
+      after: "{{ after | service_info2_running: }}"
 
   - name: Generate a Post-Patch HTML report
     ansible.builtin.template:
