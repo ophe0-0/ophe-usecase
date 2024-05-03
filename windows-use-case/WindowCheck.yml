@@ -10,7 +10,7 @@
     - name: Print running service on Windows
       ansible.builtin.debug:
         msg: " {{ item.display_name }} has started "
-      loop: "{{ lookup('service_info.state', 'started', wantlist=True) }}"
+      loop: "{{ lookup('service_info.services', 'started', wantlist=True) }}"
       
 
     - name: Check disk space on Windows
