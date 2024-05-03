@@ -8,9 +8,9 @@
   tasks:
 
     - name: Take VM Snapshot
-      ansible.builtin.shell: "virsh snapshot-create-as --domain {{ kvm_vm_name }} --name 'windowSS-1'"
+      ansible.builtin.shell: "virsh snapshot-create-as --domain 'win2019' --name 'windowSS-1'"
       register: vm_snapshot_result
-      delegate_to: vm_host
+      delegate_to: 192.168.122.1
       ignore_errors: true
 
     - name: VM snapshot result
