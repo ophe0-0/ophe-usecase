@@ -9,7 +9,7 @@
 
     - name: Print running service on Windows
       ansible.builtin.debug:
-        msg: " {{ item.display_name }} has started "
+        msg: " {{ service_info.display_name }} has started "
       loop: "{{ service_info.services | selectattr('item.state', 'equalto', 'started') | list }}"
       
 
