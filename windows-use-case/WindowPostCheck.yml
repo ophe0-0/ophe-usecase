@@ -1,7 +1,6 @@
 ---
 - name: Post Patch Checks
   hosts: all
-  vars_files: WindowCheck.yml
   
   tasks: 
   - name: Get running services of Windows VM
