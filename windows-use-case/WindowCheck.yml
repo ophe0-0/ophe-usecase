@@ -6,11 +6,12 @@
     - name: Get running services of Windows VM
       ansible.windows.win_service_info:
       register: service_info
+      
 
     - name: Print running service on Windows
       ansible.builtin.debug:
-        msg: " {{ item.display_name }} has started "
-      loop: "{{ service_info | selectattr('item.state', 'equalto', 'started') | list }}"
+        msg: " {{ service_info.services.display_name }} has started "
+      loop: "{{ service_info.services | selectattr('item.state', 'equalto', 'started') | list }}"
       
 
     - name: Check disk space on Windows
