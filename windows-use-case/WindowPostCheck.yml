@@ -17,6 +17,6 @@
       after: "{{ service_info2_running }}"
 
   - name: Generate a Post-Patch HTML report
-    ansible.builtin.template:
+    ansible.windows.win_template:
       src: postreport.html.j2
       dest: /postreport.html
