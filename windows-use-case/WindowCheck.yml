@@ -7,14 +7,14 @@
       ansible.windows.win_service_info:
       register: service_info      
 
-    - name: Print running service on Windows
-      ansible.builtin.debug:
-        var: service_info_running
-      
+     
     - name: Create a list of running services
       ansible.builtin.set_fact:
         service_info_running: "{{ service_info.services | selectattr('state', 'equalto', 'started') | list }}"
-
+    
+    - name: Print running service on Windows
+      ansible.builtin.debug:
+        var: service_info_running
 
     - name: Check disk space on Windows
       ansible.windows.win_shell: 'Get-PSDrive C | Select-Object Free | ft -HideTableHeaders'
