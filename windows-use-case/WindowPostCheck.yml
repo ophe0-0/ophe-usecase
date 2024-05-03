@@ -3,22 +3,17 @@
   hosts: all
   
   tasks: 
-  - name: Check running services
-    ansible.windows.win_service_info:
-    register: service_info2
+  - name: Get running services of Windows VM
+      ansible.windows.win_service_info:
+      register: service_info2  
 
-  - name: Print running service on Windows
-    ansible.builtin.debug:
-      msg: " {{ item.display_name }} has started "
-    loop: "{{ service_info2.services }}"
-    when: item.state == 'started'
+  - name: Create a list of running services
+    ansible.builtin.set_fact:
+      service_info2_running: "{{ service_info2.services | selectattr('state', 'equalto', 'started') | map(attribute='display_name') | list }}"
 
   - name: compare pre chk vs post chk
-    ansible.builtin.copy:
-      src: C:\ansibleChecks.txt
-      dest: C:\ansibleUpdates.txt
-    check_mode: yes
-    diff: yes
+    ansible.builtin.debug:
+      msg: {{ service_info_running | intersect(service_info2_running) }}
 
   - name: Generate a Post-Patch HTML report
     ansible.builtin.template:
