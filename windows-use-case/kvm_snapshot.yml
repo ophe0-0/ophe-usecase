@@ -7,6 +7,14 @@
   tasks:
 
     - name: Take VM Snapshot
-      ansible.builtin.shell: "sudo virsh snapshot-create-as --domain 'win2019' --name 'windowSS-1'"
+      ansible.builtin.shell: "sudo virsh snapshot-create-as --domain {{ kvm_vm_name }} --name {{ snapshot_name }}"
+      delegate_to: vm_host
       register: vm_snapshot_result
       ignore_errors: true
+
+    - ansible.builtin.set_fact:
+        datetime: "{{ ansible_date_time.date }}_{{ ansible_date_time.time |  replace(':','-') }}" 
+        end_time: "{{ lookup('pipe','date \"+%T %Z %F\"') }}"
+      delegate_to: vm_host
+      delegate_facts: true
+      run_once: true
