@@ -13,8 +13,8 @@
 
   - name: compare pre chk vs post chk
     ansible.utils.fact_diff: 
-      before: "{{ before | service_info_running }}"
-      after: "{{ after | service_info2_running: }}"
+      before: "{{ service_info_running }}"
+      after: "{{ service_info2_running }}"
 
   - name: Generate a Post-Patch HTML report
     ansible.builtin.template:
