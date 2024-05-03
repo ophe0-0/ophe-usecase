@@ -5,14 +5,16 @@
   tasks:
     - name: Get running services of Windows VM
       ansible.windows.win_service_info:
-      register: service_info
-      
+      register: service_info      
 
     - name: Print running service on Windows
       ansible.builtin.debug:
-        msg: " {{ item.display_name }} has started "
-      loop: "{{ service_info.services | selectattr('state', 'equalto', 'started') | list }}"
+        var: service_info_running
       
+    - name: Create a list of running services
+      ansible.builtin.set_fact:
+        service_info_running: "{{ service_info.services | selectattr('state', 'equalto', 'started') | list }}"
+
 
     - name: Check disk space on Windows
       ansible.windows.win_shell: 'Get-PSDrive C | Select-Object Free | ft -HideTableHeaders'
