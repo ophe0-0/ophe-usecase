@@ -9,7 +9,7 @@
 
     - name: Create a list of running services
       ansible.builtin.set_fact:
-        service_info_running: "{{ service_info.services | selectattr('state', 'equalto', 'started') | map(attribute='name') | list }}"
+        service_info_running: "{{ service_info.services | selectattr('state', 'equalto', 'started') | map(attribute='display_name') | list }}"
     
     - name: Print running service on Windows
       ansible.builtin.debug:
