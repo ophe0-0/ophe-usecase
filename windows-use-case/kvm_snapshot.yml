@@ -3,6 +3,8 @@
   hosts: all
   become: yes
   gather_facts: no
+  var:
+    - inventory
   tasks:
 
     - name: Take VM Snapshot
