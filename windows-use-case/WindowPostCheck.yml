@@ -4,8 +4,8 @@
   
   tasks: 
   - name: Get running services of Windows VM
-      ansible.windows.win_service_info:
-      register: service_info2  
+    ansible.windows.win_service_info:
+    register: service_info2  
 
   - name: Create a list of running services
     ansible.builtin.set_fact:
