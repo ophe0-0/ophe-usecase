@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html>
 <head>
     <title>Post-Patch Report</title>
     <style>
@@ -29,9 +31,9 @@
         </tr>
         {% for system in systems %}
         <tr>
-            <td>{{ ansible_hostname }}</td>
-            <td>{{ ansible_interfaces.ipv4.address }}</td>
-            <td>{{ ansible_powershell_version }}</td>
+            <td>{{ system.ansible_hostname }}</td>
+            <td>{{ system.ansible_interfaces.ipv4.address }}</td>
+            <td>{{ system.ansible_powershell_version }}</td>
         </tr>
         {% endfor %}
     </table>
@@ -49,3 +51,4 @@
         </tr>
         {% endfor %}
     </table>
+</html>

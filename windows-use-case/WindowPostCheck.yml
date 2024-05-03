@@ -5,8 +5,13 @@
   tasks: 
   - name: Check running services
     ansible.windows.win_service_info:
-      name: WinRM
-    register: service_info
+    register: service_info2
+
+  - name: Print running service on Windows
+    ansible.builtin.debug:
+      msg: " {{ item.display_name }} has started "
+    loop: "{{ service_info2.services }}"
+    when: item.state == 'started'
 
   - name: compare pre chk vs post chk
     ansible.builtin.copy:
