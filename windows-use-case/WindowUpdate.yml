@@ -11,11 +11,11 @@
     register: ansible_update
 
   - name: report results
-      ansible.builtin.debug:
-        msg: |
-          {% for k in ansible_update.updates %}
-          {{ ansible_update.updates[k].title }}
-          kb: {{ ansible_update.updates[k].kb }}
-          Installed status: {{ ansible_update.updates[k].installed }}
-          {% endfor %}
+    ansible.builtin.debug:
+      msg: |
+        {% for k in ansible_update.updates %}
+        {{ ansible_update.updates[k].title }}
+        kb: {{ ansible_update.updates[k].kb }}
+        Installed status: {{ ansible_update.updates[k].installed }}
+        {% endfor %}
  
