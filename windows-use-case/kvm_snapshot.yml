@@ -1,7 +1,7 @@
 ---
 - name: Taking VM Snapshot
   hosts: all
-  become: yes
+
 
   tasks:
 
@@ -9,6 +9,7 @@
       ansible.builtin.set_fact:
         datetime: "{{ ansible_date_time.date }}_{{ ansible_date_time.time |  replace(':','-') }}" 
         end_time: "{{ lookup('pipe','date \"+%T %Z %F\"') }}"
+      delegate_to: localhost
       delegate_facts: true
       run_once: true
 
