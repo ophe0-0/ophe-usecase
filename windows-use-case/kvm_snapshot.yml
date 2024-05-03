@@ -1,7 +1,7 @@
 ---
 - name: Taking VM Snapshot
   hosts: all
-
+  become: yes
 
   tasks:
 
