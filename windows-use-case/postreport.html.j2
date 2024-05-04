@@ -8,3 +8,5 @@ windows KB:
     {{ kb }}
   {% endfor %}
 {% endfor %}
+
+{{ ansible_checks_kb | difference(ansible_update_kb) }}
