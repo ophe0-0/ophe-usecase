@@ -32,13 +32,10 @@
       register: ansible_checks
   
     - name: report results
-      ansible.builtin.debug:
-        msg: |
-          {% for k in ansible_checks.updates %}
-          {{ ansible_checks.updates[k].title }}
-          kb: {{ ansible_checks.updates[k].kb }}
-          Installed status: {{ ansible_checks.updates[k].installed }}
-          {% endfor %}
+      ansible.builtin.set_stats:
+        data: 
+          ansible_checks_kb: "{{ ansible_checks.updates | map(attribute='kb') | list }}"
+          
 
 
 
