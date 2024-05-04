@@ -34,7 +34,7 @@
     - name: report results
       ansible.builtin.set_stats:
         data: 
-          ansible_checks_kb: "{{ ansible_checks.updates | map(attribute='kb') | list }}"
+          ansible_checks_kb: "{{ ansible_checks.updates.kb | list }}"
           
 
 
