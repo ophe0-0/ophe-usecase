@@ -16,3 +16,8 @@
       before: "{{ service_info_running }}"
       after: "{{ service_info2_running }}"
     register: service_diff_result
+
+  - name: Generate a Post-Patch HTML report
+    ansible.builtin.template:
+      src: postreport.html.j2
+      dest: /postreport.html
