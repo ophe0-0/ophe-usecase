@@ -3,6 +3,6 @@ IP: {{ ansible_host }}
 Windows version: {{ ansible_facts['distribution_version'] }}
 
 windows KB: 
-{% for update in ansible_checks_kb %}
-  {{ update }}
+{% for update in ansible_checks.updates %}
+  {{ update.kb }}
 {% endfor %}
