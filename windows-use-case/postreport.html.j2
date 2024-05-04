@@ -8,13 +8,11 @@
            border-collapse: collapse;
        }
 
-
        th, td {
            border: 1px solid #dddddd;
            text-align: left;
            padding: 8px;
        }
-
 
        th {
            background-color: #f2f2f2;
@@ -30,12 +28,12 @@
            <th>Hostname</th>
            <th>IP</th>
            <th>Windows Version</th>
+       </tr>
        <tr>
            <td>{{ ansible_facts['fqdn'] }}</td>
            <td>{{ ansible_host }}</td>
            <td>{{ ansible_facts['distribution_version'] }}</td>
        </tr>
-       {% endfor %}
    </table>
   
    <h2>Windows KBs Status</h2>
@@ -45,13 +43,13 @@
            <th>Differences</th>
        </tr>
        {% for kb_list in ansible_checks_kb %}
-       <tr>
-       {% for kb in kb_list %}
-       <tr>
-           <td>{{ kb }}</td>
-           <td>{{ ansible_checks_kb | difference(ansible_update_kb) }}</td>
-       </tr>
+           {% for kb in kb_list %}
+               <tr>
+                   <td>{{ kb }}</td>
+                   <td>{{ ansible_checks_kb | difference(ansible_update_kb) }}</td>
+               </tr>
+           {% endfor %}
        {% endfor %}
    </table>
+</body>
 </html>
-
