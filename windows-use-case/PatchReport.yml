@@ -7,7 +7,6 @@
     ansible.windows.win_service_info:
     register: window_info
     
-
   - name: Generate a Post-Patch HTML report
     ansible.builtin.template:
       src: postreport.html.j2
