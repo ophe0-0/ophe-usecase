@@ -7,8 +7,9 @@
   tasks:
 
     - name: Getting date and time
-      ansible.builtin.set_fact:        
-        end_time: "{{ lookup('pipe','date \"+%T %Z %F\"') }}"
+      ansible.builtin.set_stats:
+        data:              
+          end_time: "{{ lookup('pipe','date \"+%T %Z %F\"') }}"
       delegate_to: vm_host
       delegate_facts: true
       run_once: true
