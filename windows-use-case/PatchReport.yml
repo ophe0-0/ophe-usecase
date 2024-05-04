@@ -1,0 +1,15 @@
+---
+- name: Post Patch Report
+  hosts: all
+
+  tasks:
+  - name: Information of windows VM
+    ansible.windows.win_service_info:
+    register: window_info
+    delegate_to: 192.168.122.194
+
+  - name: Generate a Post-Patch HTML report
+    ansible.builtin.template:
+      src: postreport.html.j2
+      dest: /postreport.html
+   
