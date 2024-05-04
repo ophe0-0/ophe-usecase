@@ -8,7 +8,7 @@
 
     - name: Getting date and time
       ansible.builtin.set_fact:        
-        end_time: "{{ lookup('pipe','date \"+%T %Z %F\"') }}"
+        end_time: "{{ lookup('pipe','date \"+%T_%Z_%F\"') }}"
       delegate_facts: true
       run_once: true
 
