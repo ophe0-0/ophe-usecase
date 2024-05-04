@@ -8,8 +8,9 @@
     register: service_info2  
 
   - name: Create a list of running services
-    ansible.builtin.set_fact:
-      service_info2_running: "{{ service_info2.services | selectattr('state', 'equalto', 'started') | map(attribute='display_name') | list }}"
+    ansible.builtin.set_stats:
+      data:
+        service_info2_running: "{{ service_info2.services | selectattr('state', 'equalto', 'started') | map(attribute='display_name') | list }}"
 
   - name: compare pre chk vs post chk
     ansible.utils.fact_diff: 
