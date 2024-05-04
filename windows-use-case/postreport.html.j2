@@ -54,6 +54,18 @@
        {% endfor %}
    </table>
 
-
+    <h2>Comparison of Running Services</h2>
+   <table>
+       <tr>
+           <th>Difference</th>
+       </tr>
+       {% for service_diff in service_diff_result %}
+           {% for diff in service_diff %}
+               <tr>
+                   <td>{{ service_info_running | difference(service_info2_running) }}</td>
+               </tr>
+           {% endfor %}
+       {% endfor %}
+   </table>
 </body>
 </html>
