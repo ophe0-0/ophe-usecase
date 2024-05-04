@@ -54,28 +54,6 @@
        {% endfor %}
    </table>
 
-    <h2>Comparison of Running Services</h2>
-   <table>
-       <tr>
-           <th>Service Name</th>
-           <th>Before</th>
-           <th>After</th>
-       </tr>
-       {% for service_diff in service_diff_result.before %}
-           <tr>
-               <td>{{ service_diff.name }}</td>
-               <td>
-                   {% for service_status in service_diff.before %}
-                       {{ service_status.state }}
-                   {% endfor %}
-               </td>
-               <td>
-                   {% for service_status in service_diff.after %}
-                       {{ service_status.state }}
-                   {% endfor %}
-               </td>
-           </tr>
-       {% endfor %}
-   </table>
+
 </body>
 </html>
