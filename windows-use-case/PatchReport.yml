@@ -11,4 +11,4 @@
     ansible.builtin.template:
       src: postreport.html.j2
       dest: /postreport.html
-   
+    loop: "{{ ansible_checks_kb | dict2items }}"
