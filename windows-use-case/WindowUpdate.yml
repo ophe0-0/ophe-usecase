@@ -9,9 +9,7 @@
       state: installed
       reboot: true
     register: ansible_update
-    async: 900
-    poll: 0
-
+    
   - name: report results
     ansible.builtin.set_stats:
         data: 
