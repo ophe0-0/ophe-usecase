@@ -13,12 +13,9 @@
       delegate_facts: true
       run_once: true
 
-    - name: Debug end_time
-      ansible.builtin.debug:
-        msg: "end_time is {{ end_time }}"
-        
+
     - name: Take VM Snapshot
-      ansible.builtin.shell: "virsh snapshot-create-as --domain {{ kvm_vm_name }} --name {{ kvm_vm_name }}.{{ end_time }}"
+      ansible.builtin.shell: "virsh snapshot-create-as --domain {{ kvm_vm_name }} --name {{ kvm_vm_name }}_{{ end_time }}"
       register: vm_snapshot_result
       delegate_to: vm_host
       ignore_errors: true
