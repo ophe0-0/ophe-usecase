@@ -2,4 +2,4 @@ Hostname: {{ ansible_facts['fqdn'] }}
 IP: {{ ansible_host }}
 Windows version: {{ ansible_facts['distribution_version'] }}
 
-windows KB: {{ ansible_checks_kb | difference(ansible_updates_kb) }}
+windows KB: {{ ansible_checks_kb }}
