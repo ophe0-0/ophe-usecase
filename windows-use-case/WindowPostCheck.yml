@@ -21,3 +21,4 @@
     ansible.builtin.template:
       src: postreport.html.j2
       dest: /postreport.html
+    delegate_to: vm_host
