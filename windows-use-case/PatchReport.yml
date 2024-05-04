@@ -6,13 +6,7 @@
   - name: Information of windows VM
     ansible.windows.win_service_info:
     register: window_info
-    delegate_to: 192.168.122.194
-    vars:
-      ansible_connection: winrm
-      ansible_winrm_transport: ntlm
-      ansible_winrm_server_cert_validation: ignore
-      ansible_user: ansible
-      ansible_password: supersecurepassword123!
+    delegate_to: kvm_vm_name
 
   - name: Generate a Post-Patch HTML report
     ansible.builtin.template:
