@@ -1,12 +1,57 @@
-Hostname: {{ ansible_facts['fqdn'] }}
-IP: {{ ansible_host }}
-Windows version: {{ ansible_facts['distribution_version'] }}
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Post-Patch Report</title>
+   <style>
+       table {
+           width: 100%;
+           border-collapse: collapse;
+       }
 
-windows KB:
-{% for kb_list in ansible_checks_kb %}
-  {% for kb in kb_list %}
-    {{ kb }}
-  {% endfor %}
-{% endfor %}
 
-{{ ansible_checks_kb | difference(ansible_update_kb) }}
+       th, td {
+           border: 1px solid #dddddd;
+           text-align: left;
+           padding: 8px;
+       }
+
+
+       th {
+           background-color: #f2f2f2;
+       }
+   </style>
+</head>
+<body>
+   <h1>Post-Patch Report</h1>
+  
+   <h2>System Information</h2>
+   <table>
+       <tr>
+           <th>Hostname</th>
+           <th>IP</th>
+           <th>Windows Version</th>
+       <tr>
+           <td>{{ ansible_facts['fqdn'] }}</td>
+           <td>{{ ansible_host }}</td>
+           <td>{{ ansible_facts['distribution_version'] }}</td>
+       </tr>
+       {% endfor %}
+   </table>
+  
+   <h2>Windows KBs Status</h2>
+   <table>
+       <tr>
+           <th>KB before</th>
+           <th>Differences</th>
+       </tr>
+       {% for kb_list in ansible_checks_kb %}
+       <tr>
+       {% for kb in kb_list %}
+       <tr>
+           <td>{{ kb }}</td>
+           <td>{{ ansible_checks_kb | difference(ansible_update_kb) }}</td>
+       </tr>
+       {% endfor %}
+   </table>
+</html>
+
