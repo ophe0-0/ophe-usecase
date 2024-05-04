@@ -54,18 +54,19 @@
        {% endfor %}
    </table>
 
-{% for service_diff in service_diff.result.diff %}
     <h2>Comparison of Running Services</h2>
    <table>
        <tr>
            <th>Before</th>
            <th>After</th>
        </tr>
-       {% for service_name, service_status in service_diff.items() %}
-           <tr>
-               <td>{{ service_status.before }}</td>
-               <td>{{ service_status.after }}</td>
-           </tr>
+       {% for service_diff in service_diff_result %}
+           {% for service_status in service_diff %}
+               <tr>
+                   <td>{{ service_status.before }}</td>
+                   <td>{{ service_status.after }}</td>
+               </tr>
+           {% endfor %}
        {% endfor %}
    </table>
 {% endfor %}
