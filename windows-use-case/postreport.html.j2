@@ -61,7 +61,7 @@
        </tr>
        {% for service_difference in service_diff_result %}
                <tr>
-                   <td>{{ service_info_running | difference(service_info2_running) }}</td>
+                   <td>{{ service_difference }}</td>
                </tr>
        {% endfor %}
    </table>
