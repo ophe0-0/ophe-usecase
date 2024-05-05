@@ -55,12 +55,12 @@
    </table>
 
     <h2>Comparison of Running Services</h2>
-    {# set service_diff = service_info_running | difference(service_info2_running) #}
+    { set service_difference = service_info_running | difference(service_info2_running) }
    <table>
        <tr>
            <th>Difference</th>
        </tr>
-       {% for diff in service_diff_result %}
+       {% for diff in service_difference %}
                
                <tr>
                    <td>{{ diff }}</td>
