@@ -48,7 +48,7 @@
            {% for kb in kb_list %}
                <tr>
                    <td>{{ kb }}</td>
-                   <td>{{ status if kb in status_element else 'installed' }}</td>
+                   <td>{{ status if kb in status_element else 'installed'}}</td>
                </tr>
            {% endfor %}
        {% endfor %}
@@ -60,9 +60,11 @@
            <th>Difference</th>
        </tr>
        {% for service_difference in service_diff_result %}
+               {% for diff in service_diff %}
                <tr>
-                   <td>{{ service_difference }}</td>
+                   <td>{{ diff }}</td>
                </tr>
+           {% endfor %}
        {% endfor %}
    </table>
 </body>
