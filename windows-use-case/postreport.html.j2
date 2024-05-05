@@ -38,7 +38,7 @@
   
    <h2>Windows KBs Status</h2>
    {% set status_element = ansible_checks_kb | difference(ansible_update_kb) %}
-   {% set status = 'installed' if status_element else 'not installed' %}
+   {% set status = 'not installed' if status_element else 'installed' %}
    <table>
        <tr>
            <th>KB</th>
@@ -48,7 +48,7 @@
            {% for kb in kb_list %}
                <tr>
                    <td>{{ kb }}</td>
-                   <td>{{ status if kb in status_element }}</td>
+                   <td>{{ status if kb in status_element else 'installed' }}</td>
                </tr>
            {% endfor %}
        {% endfor %}
@@ -60,11 +60,9 @@
            <th>Difference</th>
        </tr>
        {% for service_difference in service_diff_result %}
-           {% for diff in service_difference %}
                <tr>
                    <td>{{ service_info_running | difference(service_info2_running) }}</td>
                </tr>
-           {% endfor %}
        {% endfor %}
    </table>
 </body>
