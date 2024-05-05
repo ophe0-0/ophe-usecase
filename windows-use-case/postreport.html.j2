@@ -41,14 +41,14 @@
    {% set status = 'installed' if status_element else 'not installed' %}
    <table>
        <tr>
-           <th>KB before</th>
+           <th>KB</th>
            <th>Status</th>
        </tr>
        {% for kb_list in ansible_checks_kb %}
            {% for kb in kb_list %}
                <tr>
                    <td>{{ kb }}</td>
-                   <td>{{ status if kb in status_element else 'not installed' }}</td>
+                   <td>{{ status if kb in status_element }}</td>
                </tr>
            {% endfor %}
        {% endfor %}
@@ -59,7 +59,7 @@
        <tr>
            <th>Difference</th>
        </tr>
-       {% for service_diff in service_diff_result %}
+       {% for service_diff in diff_lines %}
            {% for diff in service_diff %}
                <tr>
                    <td>{{ service_info_running | difference(service_info2_running) }}</td>
