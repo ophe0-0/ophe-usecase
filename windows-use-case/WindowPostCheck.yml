@@ -15,11 +15,7 @@
     ansible.utils.fact_diff: 
       before: "{{ service_info_running }}"
       after: "{{ service_info2_running }}"
-    register: service_diff
-
-  - name: List of pre vs post chk
-    ansible.builtin.set_fact:
-      service_diff_result: "{{ service_diff }}"
+    register: service_diff_result
 
   - name: Generate a Post-Patch HTML report
     ansible.builtin.template:
