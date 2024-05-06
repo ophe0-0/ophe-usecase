@@ -60,19 +60,22 @@
    <table>
        <tr>
            <th>Services that are no longer Running</th>
-           <th>New Services Running</th>
        </tr>
-       {% for diff in service_difference %}
-          
+       {% for diff in service_difference %}          
                <tr>
                    <td>{{ diff }}</td>                   
                </tr>           
        {% endfor %}
-       {% for diff2 in service_diff %}
-                <tr>                   
-                   <td>{{ diff2 }}</td>
-               </tr>
-        {% endfor %}
    </table>
+   <table>
+        <tr>
+            <th>New Services Running</th>
+        </tr>
+       {% for diff2 in service_diff %}          
+               <tr>
+                   <td>{{ diff2 }}</td>                   
+               </tr>           
+       {% endfor %}
+    </table>
 </body>
 </html>
