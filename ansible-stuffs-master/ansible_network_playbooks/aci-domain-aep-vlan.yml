@@ -1,5 +1,5 @@
 - name: Create new ACI VLAN pool, physical domain, AEP and various bindings
-  hosts: localhost
+  hosts: aci
   gather_facts: false
   connection: local
 

@@ -7,14 +7,14 @@
     username: admin
     password: redhat123
     hostname: 10.69.151.244
-    survey_vlan_pool_name: "{{ req_vlan_pool_name }}"
-    survey_vlan_block_start: "{{ req_vlan_block_start }}"
-    survey_vlan_block_end: "{{ req_vlan_block_end }}"
+#    survey_vlan_pool_name: "{{ req_vlan_pool_name }}"
+#    survey_vlan_block_start: "{{ req_vlan_block_start }}"
+#    survey_vlan_block_end: "{{ req_vlan_block_end }}"
     survey_domain_name: "{{ req_domain_name }}"
     survey_aep_name: "{{ req_aep_name }}"
-#    survey_vlan_pool_name: production
-#    survey_vlan_block_start: 10
-#    survey_vlan_block_end: 20
+    survey_vlan_pool_name: production
+    survey_vlan_block_start: 10
+    survey_vlan_block_end: 20
 
   tasks:
     - name: Add a new VLAN pool
