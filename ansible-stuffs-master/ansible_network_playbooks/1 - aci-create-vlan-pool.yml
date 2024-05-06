@@ -27,6 +27,7 @@
         description: "{{ survey_vlan_pool_name }} VLANs"
         state: present
         validate_certs: false
+        timeout: 60
 #      delegate_to: localhost
 
     - name: Add a new VLAN encap block
