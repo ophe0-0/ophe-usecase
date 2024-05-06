@@ -1,5 +1,5 @@
 - name: Create new ACI VLAN pool
-  hosts: localhost
+  hosts: aci
   gather_facts: false
   connection: local
 
