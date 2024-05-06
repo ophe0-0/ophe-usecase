@@ -19,4 +19,10 @@
       delegate_to: vm_host
       ignore_errors: true
 
+    - name: Save information of hostname for subsequent workflow
+      set_stats:
+        data:
+          snapshot_ok_vms: "{{ (snapshot_ok_vms | default([]))  + [inventory_hostname] }}"
+      when: "'created' in vm_snapshot_result.stdout"
+
 

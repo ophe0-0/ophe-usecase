@@ -1,6 +1,6 @@
 ---
 - name: Windows rolling update
-  hosts: all
+  hosts: "{{ snapshot_ok_vms }}"
   tasks:
 
   - name: Run updates on windows
@@ -13,5 +13,5 @@
   - name: report results
     ansible.builtin.set_stats:
         data: 
-          ansible_update_kb: "{{ ansible_update.updates | dict2items | map(attribute='value.kb') | list }}"
+          ansible_update_kb: "{{ ansible_update.updates | dict2items | map(attribute='value.kb') | selectattr('installed', 'equalto', 'true') | list }}"
  
