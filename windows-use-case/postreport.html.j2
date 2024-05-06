@@ -63,13 +63,16 @@
            <th>New Services Running</th>
        </tr>
        {% for diff in service_difference %}
-           {% for diff2 in service_diff %}
+          
                <tr>
-                   <td>{{ diff }}</td>
+                   <td>{{ diff }}</td>                   
+               </tr>           
+       {% endfor %}
+       {% for diff2 in service_diff %}
+                <tr>                   
                    <td>{{ diff2 }}</td>
                </tr>
-           {% endfor %}
-       {% endfor %}
+        {% endfor %}
    </table>
 </body>
 </html>
