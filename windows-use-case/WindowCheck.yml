@@ -30,9 +30,13 @@
         category_names: '*'
         state: searched
       register: ansible_checks
+
+    - name: chk whats wrong
+      ansible.builtin.debug:
+        var: ansible_checks.updates
   
     - name: Create list of kb in precheck
       ansible.builtin.set_stats:
         data: 
-          ansible_checks_kb: "{{ ansible_checks.updates | selectattr('value.installed', 'equalto', 'false') | map(attribute='value.kb') | list }}"
+          ansible_checks_kb: "{{ ansible_checks.updates | dict2items| selectattr('value.installed', 'equalto', 'false') | map(attribute='value.kb') | list }}"
 #          ansible_checks_kb: "{{ ansible_checks.updates | dict2items | map(attribute='value.kb') | list }}" 

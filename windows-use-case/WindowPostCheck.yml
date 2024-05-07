@@ -24,6 +24,6 @@
   - name: Generate a Post-Patch HTML report
     ansible.builtin.template:
       src: postreport.html.j2
-      dest: /postreport.html
-#      dest: /home/oliang/ReportOuput/{{inventory_hostname}}_postreport.html
-#    delegate_to: vm_host
+#      dest: /postreport.html
+      dest: /home/oliang/ReportOuput/{{inventory_hostname}}_postreport.html
+    delegate_to: vm_host
