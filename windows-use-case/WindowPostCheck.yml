@@ -1,6 +1,7 @@
 ---
 - name: Post Patch Checks
   hosts: all
+  become: yes
   
   tasks: 
 #  - name: Add Delay (in case of any false postive running service result)

@@ -30,10 +30,6 @@
         category_names: '*'
         state: searched
       register: ansible_checks
-
-    - name: chk whats wrong
-      ansible.builtin.debug:
-        var: ansible_checks.updates
   
     - name: Create list of kb in precheck
       ansible.builtin.set_stats:
