@@ -3,9 +3,9 @@
   hosts: all
   
   tasks: 
-  - name: Add Delay (in case of any false postive running service result)
-    ansible.builtin.pause:
-      minutes: 2
+#  - name: Add Delay (in case of any false postive running service result)
+#    ansible.builtin.pause:
+#      minutes: 2
   
   - name: Get running services of Windows VM
     ansible.windows.win_service_info:
