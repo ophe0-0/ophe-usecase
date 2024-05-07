@@ -13,5 +13,5 @@
   - name: report results
     ansible.builtin.set_stats:
         data: 
-          ansible_update_kb: "{{ ansible_update.updates | dict2items | map(attribute='value.kb') | selectattr('installed', 'equalto', 'true') | list }}"
+          ansible_update_kb: "{{ ansible_update.updates | dict2items | selectattr('installed', 'equalto', 'true') | map(attribute='value.kb') | list }}"
  
