@@ -34,5 +34,5 @@
     - name: Create list of kb in precheck
       ansible.builtin.set_stats:
         data: 
-          ansible_checks_kb: "{{ ansible_checks.updates | dict2items| selectattr('value.installed', 'equalto', 'true') | map(attribute='value.kb') | list }}"
+          ansible_checks_kb: "{{ ansible_checks.updates | dict2items| selectattr('value.installed', 'equalto', 'false') | map(attribute='value.kb') | list }}"
 #          ansible_checks_kb: "{{ ansible_checks.updates | dict2items | map(attribute='value.kb') | list }}" 
