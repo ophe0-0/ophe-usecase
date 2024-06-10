@@ -4,6 +4,6 @@
 
   tasks:
     - name: retrive info
-      ansible.windows.win_domain_user:
+      ansible.windows.win_user:
         state: query
         
