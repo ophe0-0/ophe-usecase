@@ -4,5 +4,5 @@
 
   tasks:
     - name: retrive info
-      ansible.builtin.getent:
-        database: passwd
+      ansible.windows.win_domain_user:
+        state: query
