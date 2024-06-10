@@ -1,0 +1,8 @@
+---
+- name: Retrieve OS users from rhel
+  hosts: all
+
+  tasks:
+    - name: retrive info
+      ansible.builtin.getent:
+        database: passwd
