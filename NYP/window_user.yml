@@ -6,3 +6,5 @@
     - name: retrive info
       ansible.windows.win_whoami:
         
+    - name: retreive group
+      ansible.windows.win_group_membership:
