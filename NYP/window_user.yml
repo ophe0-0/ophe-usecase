@@ -1,0 +1,9 @@
+---
+- name: Retrieve OS users from windows
+  hosts: all
+
+  tasks:
+    - name: retrive info
+      ansible.windows.win_domain_user:
+        state: query
+        
