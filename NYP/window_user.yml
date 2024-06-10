@@ -4,6 +4,5 @@
 
   tasks:
     - name: retrive info
-      ansible.windows.win_user:
-        state: query
+      ansible.windows.win_whoami:
         
