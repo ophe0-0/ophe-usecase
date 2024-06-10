@@ -3,6 +3,12 @@
   hosts: all
 
   tasks:
-    - name: retrive info
+    - name: retrive info for users
       ansible.builtin.getent:
         database: passwd
+
+    - name: retrive info for groups
+      ansible.builtin.getent:
+        database: group
+
+
