@@ -27,9 +27,11 @@
            $groups = Get-LocalGroup | Where-Object {
               Get-LocalGroupMember -Group $_.Name -Member $user.Name -ErrorAction SilentlyContinue
            } | Select-Object -ExpandProperty Name
+           $status = if ($user.Enabled) { "Active" } else { "Disabled" }
           [PSCustomObject]@{
              UserName = $user.Name
              Groups   = $groups -join ", "
+             Status   = $status
           }
         } 
       register: user_groups_output
