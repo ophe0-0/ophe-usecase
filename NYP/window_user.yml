@@ -20,14 +20,41 @@
       ansible.windows.win_powershell:
         script: Get-LocalUser | Where-Object { $_.Enabled -eq $false } | Select-Object -Property Name
 
-    - name: list of groups of the users listed
-      ansible.windows.win_powershell:
-        script: Get-LocalUser | ForEach-Object { $user = $_; $groups = Get-LocalGroup | Where-Object { Get-LocalGroupMember -Group $_.Name -Member $user.Name -ErrorAction SilentlyContinue } | Select-Object -ExpandProperty Name; [PSCustomObject]@{ UserName = $user.Name; Groups = $groups -join ", " } } | Format-Table -AutoSize
-      register: group
+    #- name: list of groups of the users listed
+    #  ansible.windows.win_powershell:
+    #    script: Get-LocalUser | ForEach-Object { $user = $_; $groups = Get-LocalGroup | Where-Object { Get-LocalGroupMember -Group $_.Name -Member $user.Name -ErrorAction SilentlyContinue } | Select-Object -ExpandProperty Name; [PSCustomObject]@{ UserName = $user.Name; Groups = $groups -join ", " } } | Format-Table -AutoSize
+    #  register: group
 
-    - name: output
-      ansible.builtin.debug:
-        msg: "{{ group }}"
+    #- name: output
+    # ansible.builtin.debug:
+    #    msg: "{{ group }}"
 
-    
+    - name: Execute PowerShell script to get users and groups
+      ansible.windows.win_powershell: |
+        # Get all users
+        $users = Get-ADUser -Filter * -Property MemberOf
+
+        # Prepare a list to store user-group mappings
+        $userGroupList = @()
+
+        # Loop through each user and get their groups
+        foreach ($user in $users) {
+            $userName = $user.SamAccountName
+            $groups = $user.MemberOf | ForEach-Object {
+                (Get-ADGroup -Identity $_).Name
+            }
+            
+            $userGroupList += [PSCustomObject]@{
+                UserName = $userName
+                Groups   = $groups -join ", "
+            }
+        }
+
+        # Output the result as a table
+        $userGroupList | Format-Table -AutoSize
+      register: user_groups_output
+
+    - name: Display the output
+      debug:
+        var: user_groups_output.stdout_lines
 
