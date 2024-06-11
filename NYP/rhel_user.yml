@@ -19,8 +19,8 @@
 
     - name: Display users and their groups
       ansible.builtin.debug:
-        msg: "User {{ user.item.key }} belongs to groups {{ groups_info.stdout_lines | select('search', '^' + user.item.key + ':') | map('regex_replace', '.*?:') | first }}"
-      loop:   "{{ users_info.ansible_facts.getent_passwd | dict2items }}"
+        msg: "User {{ user.key }} belongs to groups {{ groups_list | selectattr('value.3', 'search', user.key) | map(attribute='key') | list }}"
+      loop: "{{ users_info.ansible_facts.getent_passwd | dict2items }}"
       loop_control:
         loop_var: user
 
