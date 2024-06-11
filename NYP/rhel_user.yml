@@ -4,7 +4,7 @@
 
   tasks:
     - name: retrive info for users
-      ansible.builtin.command:
+      ansible.builtin.command: getent passwd
 #        database: passwd
       register: users_info
 
