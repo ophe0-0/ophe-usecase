@@ -22,11 +22,7 @@
 
     - name: list of groups of the users listed
       ansible.windows.win_powershell:
-        script: Get-LocalUser | ForEach-Object {
-                $user = $_.Name
-                $groups = Get-LocalGroup | Where-Object {
-                 (Get-LocalGroupMember -Group $_.Name -ErrorAction SilentlyContinue) -contains $user } | Select-Object -ExpandProperty Name [PSCustomObject]@{ UserName = $user
-                  Groups   = $groups -join ", " } } | Format-Table -AutoSize
+        script: Get-LocalUser | ForEach-Object { $user = $_ $groups = Get-LocalGroup | Where-Object { Get-LocalGroupMember -Group $_.Name -Member $user.Name -ErrorAction SilentlyContinue } | Select-Object -ExpandProperty Name [PSCustomObject]@{ UserName = $user.Name Groups = $groups -join ", " } } | Format-Table -AutoSize
 
 
     
