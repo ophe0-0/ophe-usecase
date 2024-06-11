@@ -6,11 +6,25 @@
     - name: retrive info of list of user
       ansible.windows.win_powershell:
         script: Get-LocalUser | Select-Object name
+      register: local_users
 
     - name: retrive info of groups
       ansible.windows.win_powershell:
         script: Get-LocalGroup
 
+    - name: list of groups of the users listed
+      ansible.windows.win_powershell:
+        script: Get-LocalUser | ForEach-Object {
+                    [PSCustomObject]@{
+                       UserName = $_.Name
+                       Groups = (Get-LocalGroup | Where-Object {
+                         Get-LocalGroupMember -Group $_.Name -Member $_.Name -ErrorAction SilentlyContinue
+                      }).Name -join ", "
+                    }
+                } | Format-Table -AutoSize
+      register: local_groups
+
     - name: Status of user
       ansible.windows.win_powershell:
-        script: Get-LocalUser
+        script: Get-LocalUser | Where-Object { $_.Enabled -eq $true } | Select-Object -Property Name
+
