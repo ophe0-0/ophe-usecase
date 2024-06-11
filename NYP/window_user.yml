@@ -32,26 +32,15 @@
     - name: Execute PowerShell script to get users and groups
       ansible.windows.win_powershell: |
         
-        $users = Get-ADUser -Filter * -Property MemberOf
-
-        
-        $userGroupList = @()
-
-       
-        foreach ($user in $users) {
-            $userName = $user.SamAccountName
-            $groups = $user.MemberOf | ForEach-Object {
-                (Get-ADGroup -Identity $_).Name
+        Get-LocalUser | ForEach-Object {
+           [PSCustomObject]@{
+             UserName = $_.Name
+             Groups = (Get-LocalGroup | Where-Object {
+               Get-LocalGroupMember -Group $_.Name -Member $_.Name -ErrorAction SilentlyContinue
+            }).Name -join ", "
             }
-            
-            $userGroupList += [PSCustomObject]@{
-                UserName = $userName
-                Groups   = $groups -join ", "
-            }
-        }
+        } | Format-Table -AutoSize
 
-        
-        $userGroupList | Format-Table -AutoSize
       register: user_groups_output
 
     - name: Display the output
