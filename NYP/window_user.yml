@@ -14,14 +14,11 @@
 
     - name: list of groups of the users listed
       ansible.windows.win_powershell:
-        script: Get-LocalUser | ForEach-Object {
-                    [PSCustomObject]@{
-                       UserName = $_.Name
-                       Groups = (Get-LocalGroup | Where-Object {
-                         Get-LocalGroupMember -Group $_.Name -Member $_.Name -ErrorAction SilentlyContinue
-                      }).Name -join ", "
-                    }
-                } | Format-Table -AutoSize
+        script: Get-LocalUser | ForEach-Object { $user = $_                   $groups = Get-LocalGroup | Where-Object {
+                    Get-LocalGroupMember -Group $_.Name -Member $user.Name -ErrorAction SilentlyContinue } | Select-Object -ExpandProperty Name [PSCustomObject]@{
+                    UserName = $user.Name
+                    Groups   = $groups -join ", " } } | Format-Table -AutoSize
+
       register: local_groups
 
     - name: Status of user
