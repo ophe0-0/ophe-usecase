@@ -30,14 +30,14 @@
     #    msg: "{{ group }}"
 
     - name: Execute PowerShell script to get users and groups
-      ansible.builtin.script: |
-        # Get all users
+      ansible.windows.win_powershell: |
+        
         $users = Get-ADUser -Filter * -Property MemberOf
 
-        # Prepare a list to store user-group mappings
+        
         $userGroupList = @()
 
-        # Loop through each user and get their groups
+       
         foreach ($user in $users) {
             $userName = $user.SamAccountName
             $groups = $user.MemberOf | ForEach-Object {
@@ -50,7 +50,7 @@
             }
         }
 
-        # Output the result as a table
+        
         $userGroupList | Format-Table -AutoSize
       register: user_groups_output
 
