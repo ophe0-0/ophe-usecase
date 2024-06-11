@@ -11,13 +11,23 @@
     - name: retrive info of groups
       ansible.windows.win_powershell:
         script: Get-LocalGroup
+    
+    - name: Status of active user
+      ansible.windows.win_powershell:
+        script: Get-LocalUser | Where-Object { $_.Enabled -eq $true } | Select-Object -Property Name
+
+    - name: Status of disable user
+      ansible.windows.win_powershell:
+        script: Get-LocalUser | Where-Object { $_.Enabled -eq $false } | Select-Object -Property Name
 
     - name: list of groups of the users listed
       ansible.windows.win_powershell:
-        script: Get-LocalUser | ForEach-Object { $user = $_ $groups = Get-LocalGroup | Where-Object { Get-LocalGroupMember -Group $_.Name -Member $user.Name -ErrorAction SilentlyContinue } | Select-Object -ExpandProperty Name [PSCustomObject]@{ UserName = $user.Name Groups   = $groups -join ", " } } | Format-Table -AutoSize
-      register: local_groups
+        script: Get-LocalUser | ForEach-Object {
+                $user = $_.Name
+                $groups = Get-LocalGroup | Where-Object {
+                 (Get-LocalGroupMember -Group $_.Name -ErrorAction SilentlyContinue) -contains $user } | Select-Object -ExpandProperty Name [PSCustomObject]@{ UserName = $user
+                  Groups   = $groups -join ", " } } | Format-Table -AutoSize
 
-    - name: Status of user
-      ansible.windows.win_powershell:
-        script: Get-LocalUser | Where-Object { $_.Enabled -eq $true } | Select-Object -Property Name
+
+    
 
