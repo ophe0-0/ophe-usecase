@@ -4,8 +4,8 @@
 
   tasks:
     - name: retrive info for users
-      ansible.builtin.getent:
-        database: passwd
+      ansible.builtin.command:
+#        database: passwd
       register: users_info
 
 #    - name: retrive info for groups
