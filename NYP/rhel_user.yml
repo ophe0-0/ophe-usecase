@@ -8,6 +8,10 @@
         database: passwd
       register: users_info
 
+    - name: Convert user info to list of dictionaries
+      ansible.builtin.set_fact:
+        users_list: "{{ users_info.ansible_facts.getent_passwd | dict2items }}"
+
     - name: retrive info for groups
       ansible.builtin.getent:
         database: group
@@ -15,8 +19,8 @@
 
     - name: Display users and their groups
       ansible.builtin.debug:
-        msg: "User {{ item.item }} belongs to groups {{ groups_info.stdout_lines | select('search', '^{{ item.item }}:') | map('regex_replace', '.*?:') | first }}"
-      loop: "{{ users_info }}"
+        msg: "User {{ item.key }} belongs to groups {{ groups_info.stdout_lines | select('search', '^{{ item.key }}:') | map('regex_replace', '.*?:') | first }}"
+      loop: "{{ users_list }}"
 
     - name: Initialize the user statuses list
       ansible.builtin.set_fact:
