@@ -12,12 +12,12 @@
         database: group
 
     - name: Get list of all users
-      shell: |
+      ansible.builtin.shell: |
         getent passwd | awk -F: '{ print $1 }'
       register: all_users
 
     - name: Check status of each user
-      shell: |
+      ansible.builtin.shell: |
         passwd_status=$(passwd -S {{ item }})
         if echo "$passwd_status" | grep -q " L "; then
           echo "User {{ item }} is locked/disabled."
@@ -27,7 +27,11 @@
       loop: "{{ all_users.stdout_lines }}"
       register: user_statuses
 
-    - name: Display user statuses
-      debug:
-        msg: "{{ item.stdout }}"
+    - name: Append each user status to the list
+      ansible.builtin.set_fact:
+        user_statuses_list: "{{ user_statuses_list + [item.stdout] }}"
       loop: "{{ user_statuses.results }}"
+
+    - name: Display all user statuses together
+      ansible.builtin.debug:
+        msg: "{{ user_statuses_list }}"
