@@ -31,16 +31,14 @@
 
     - name: Execute PowerShell script to get users and groups
       ansible.windows.win_powershell: |
-        
         Get-LocalUser | ForEach-Object {
            [PSCustomObject]@{
              UserName = $_.Name
              Groups = (Get-LocalGroup | Where-Object {
-               Get-LocalGroupMember -Group $_.Name -Member $_.Name -ErrorAction SilentlyContinue
+                Get-LocalGroupMember -Group $_.Name -Member $_.Name -ErrorAction SilentlyContinue
             }).Name -join ", "
             }
-        } | Format-Table -AutoSize
-
+        } 
       register: user_groups_output
 
     - name: Display the output
