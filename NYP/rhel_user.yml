@@ -8,21 +8,25 @@
         database: passwd
       register: users_info
 
-    - name: retrive info for groups
-      ansible.builtin.getent:
-        database: group
-      register: groups_info
+#    - name: retrive info for groups
+#      ansible.builtin.getent:
+#       database: group
+#      register: groups_info
 
-    - name: Convert group info to list of dictionaries
+    - name: Extract usernames
       ansible.builtin.set_fact:
-        groups_list: "{{ groups_info.ansible_facts.getent_group | dict2items }}"
+        users_list: "{{ users_info.stdout_lines | map('split', ':') | map('first') }}"
+
+    - name: Get groups for each user
+      ansible.builtin.shell: "id -Gn {{ item }}"
+      register: user_groups
+      loop: "{{ users_list }}"
+      changed_when: false
 
     - name: Display users and their groups
       ansible.builtin.debug:
-        msg: "User {{ user.key }} belongs to groups {{ groups_list | selectattr('value.3', 'search', user.key) | map(attribute='key') | list }}"
-      loop: "{{ users_info.ansible_facts.getent_passwd | dict2items }}"
-      loop_control:
-        loop_var: user
+        msg: "{{ item.item }} is in groups: {{ item.stdout }}"
+      loop: "{{ user_groups.results }}"
 
     - name: Initialize the user statuses list
       ansible.builtin.set_fact:
