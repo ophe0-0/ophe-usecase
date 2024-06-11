@@ -6,10 +6,17 @@
     - name: retrive info for users
       ansible.builtin.getent:
         database: passwd
+      register: users_info
 
     - name: retrive info for groups
       ansible.builtin.getent:
         database: group
+      register: groups_info
+
+    - name: Display users and their groups
+      ansible.builtin.debug:
+        msg: "User {{ item.item }} belongs to groups {{ groups_info.stdout_lines | select('search', '^{{ item.item }}:') | map('regex_replace', '.*?:') | first }}"
+      loop: "{{ users_info }}"
 
     - name: Initialize the user statuses list
       ansible.builtin.set_fact:
