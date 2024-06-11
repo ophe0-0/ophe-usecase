@@ -30,7 +30,7 @@
     #    msg: "{{ group }}"
 
     - name: Execute PowerShell script to get users and groups
-      ansible.windows.win_powershell: |
+      ansible.windows.win_shell: |
         Get-LocalUser | ForEach-Object {
            [PSCustomObject]@{
              UserName = $_.Name
