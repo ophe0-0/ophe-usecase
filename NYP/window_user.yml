@@ -20,15 +20,6 @@
       ansible.windows.win_powershell:
         script: Get-LocalUser | Where-Object { $_.Enabled -eq $false } | Select-Object -Property Name
 
-    #- name: list of groups of the users listed
-    #  ansible.windows.win_powershell:
-    #    script: Get-LocalUser | ForEach-Object { $user = $_; $groups = Get-LocalGroup | Where-Object { Get-LocalGroupMember -Group $_.Name -Member $user.Name -ErrorAction SilentlyContinue } | Select-Object -ExpandProperty Name; [PSCustomObject]@{ UserName = $user.Name; Groups = $groups -join ", " } } | Format-Table -AutoSize
-    #  register: group
-
-    #- name: output
-    # ansible.builtin.debug:
-    #    msg: "{{ group }}"
-
     - name: Execute PowerShell script to get users and groups
       ansible.windows.win_shell: |
         Get-LocalUser | ForEach-Object {

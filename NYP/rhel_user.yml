@@ -11,4 +11,21 @@
       ansible.builtin.getent:
         database: group
 
+    - name: Check if the user exists and get their status
+      shell: |
+        if id -u {{ username }} >/dev/null 2>&1; then
+          passwd_status=$(passwd -S {{ username }})
+          if echo "$passwd_status" | grep -q " L "; then
+            echo "User {{ username }} is locked/disabled."
+          else
+            echo "User {{ username }} is active."
+          fi
+        else
+          echo "User {{ username }} does not exist."
+        fi
+      register: user_status_output
+
+    - name: Display user status
+      debug:
+        msg: "{{ user_status_output.stdout }}"
 
