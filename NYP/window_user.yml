@@ -27,7 +27,7 @@
 
     - name: output
       ansible.builtin.debug:
-        msg: {{ group }}
+        msg: "{{ group }}"
 
     
 
