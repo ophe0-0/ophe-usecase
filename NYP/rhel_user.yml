@@ -40,7 +40,7 @@
     - name: Display users, their groups, and statuses
       ansible.builtin.debug:
         msg: |
-          {% for user, groups, status in zip(users_list, user_groups.results, user_statuses.results) %}
+          {% for user, groups, status in users_list, user_groups.results, user_statuses.results %}
           User: {{ user }}
           Groups: {{ groups.stdout }}
           Status: {{ status.stdout.split()[2] | regex_replace('is', '') }}
