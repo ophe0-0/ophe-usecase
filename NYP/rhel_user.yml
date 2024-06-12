@@ -9,7 +9,7 @@
 
     - name: Extract usernames
       ansible.builtin.set_fact:
-        users_list: "{{ users_info.stdout_lines | map('split', ':') | map('first') }}"
+        users_list: "{{ users_info.stdout_lines | map('split', ':') | selectattr('8', 'ne', '/sbin/nologin') | map('first') }}"
 
     - name: Get groups for each user
       ansible.builtin.shell: "id -Gn {{ item }}"
@@ -22,6 +22,11 @@
         msg: "{{ item.item }} is in groups: {{ item.stdout }}"
       loop: "{{ user_groups.results }}"
 
+    - name: Get list of all users
+      ansible.builtin.shell: |
+        getent passwd | awk -F: '{ print $1 }'
+      register: all_users
+
     - name: Check status of each user
       ansible.builtin.shell: |
         passwd_status=$(passwd -S {{ item }})
@@ -30,7 +35,7 @@
         else
           echo "User {{ item }} is active."
         fi
-      loop: "{{ users_list }}"
+      loop: "{{ all_users.stdout_lines }}"
       register: user_statuses
 
     - name: Merge user statuses with groups
