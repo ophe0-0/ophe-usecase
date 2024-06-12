@@ -17,9 +17,10 @@
       loop: "{{ users_list }}"
       changed_when: false
 
-    - name: Initialize the user statuses list
-      ansible.builtin.set_fact:
-        user_statuses_list: []
+    - name: Display users and their groups
+      ansible.builtin.debug:
+        msg: "{{ item.item }} is in groups: {{ item.stdout }}"
+      loop: "{{ user_groups.results }}"
 
     - name: Check status of each user
       ansible.builtin.shell: |
@@ -32,16 +33,12 @@
       loop: "{{ users_list }}"
       register: user_statuses
 
-    - name: Append each user status to the list
+    - name: Merge user statuses with groups
       ansible.builtin.set_fact:
-        user_statuses_list: "{{ user_statuses_list + [item.stdout] }}"
+        merged_info: "{{ merged_info | default({}) | combine({item.item: {'status': item.stdout, 'groups': (user_groups.results | selectattr('item', 'equalto', item.item) | map(attribute='stdout') | first)}}) }}"
       loop: "{{ user_statuses.results }}"
 
-    - name: Display users, their groups, and statuses
+    - name: Display all user statuses and groups together
       ansible.builtin.debug:
-        msg: |
-          {% for user, groups, status in users_list, user_groups.results, user_statuses.results %}
-          User: {{ user }}
-          Groups: {{ groups.stdout }}
-          Status: {{ status.stdout.split()[2] | regex_replace('is', '') }}
-          {% endfor %}
+        msg: "User {{ item.key }} is {{ item.value.status }} and is in groups: {{ item.value.groups }}"
+      loop: "{{ merged_info|dict2items }}"
