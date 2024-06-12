@@ -9,7 +9,7 @@
 
     - name: Extract usernames
       ansible.builtin.set_fact:
-        users_list: "{{ users_info.stdout_lines | map('split', ':') | selectattr('7', 'ne', '/sbin/nologin') | map('first') }}"
+        users_list: "{{ users_info.stdout_lines | map('split', ':') | selectattr('6', 'ne', '/sbin/nologin') | map('first') }}"
 
     - name: Get groups for each user
       ansible.builtin.shell: "id -Gn {{ item }}"
