@@ -5,13 +5,7 @@
   tasks:
     - name: retrive info for users
       ansible.builtin.command: getent passwd
-#        database: passwd
       register: users_info
-
-#    - name: retrive info for groups
-#      ansible.builtin.getent:
-#       database: group
-#      register: groups_info
 
     - name: Extract usernames
       ansible.builtin.set_fact:
@@ -23,19 +17,9 @@
       loop: "{{ users_list }}"
       changed_when: false
 
-    - name: Display users and their groups
-      ansible.builtin.debug:
-        msg: "{{ item.item }} is in groups: {{ item.stdout }}"
-      loop: "{{ user_groups.results }}"
-
     - name: Initialize the user statuses list
       ansible.builtin.set_fact:
         user_statuses_list: []
-
-    - name: Get list of all users
-      ansible.builtin.shell: |
-        getent passwd | awk -F: '{ print $1 }'
-      register: all_users
 
     - name: Check status of each user
       ansible.builtin.shell: |
@@ -45,7 +29,7 @@
         else
           echo "User {{ item }} is active."
         fi
-      loop: "{{ all_users.stdout_lines }}"
+      loop: "{{ users_list }}"
       register: user_statuses
 
     - name: Append each user status to the list
@@ -53,6 +37,11 @@
         user_statuses_list: "{{ user_statuses_list + [item.stdout] }}"
       loop: "{{ user_statuses.results }}"
 
-    - name: Display all user statuses together
+    - name: Display users, their groups, and statuses
       ansible.builtin.debug:
-        msg: "{{ user_statuses_list }}"
+        msg: |
+          {% for user, groups, status in zip(users_list, user_groups.results, user_statuses.results) %}
+          User: {{ user }}
+          Groups: {{ groups.stdout }}
+          Status: {{ status.stdout.split()[2] | regex_replace('is', '') }}
+          {% endfor %}
