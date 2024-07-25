@@ -4,11 +4,14 @@
   become: yes
 
   tasks:
-    - name: Output the time
-      ansible.builtin.command: date
-      register: date_output
-      
     - name: Print the time
+      ansible.builtin.command: date
+      register: result
+      changed_when: false
+      
+    - name: Output the time every minute
       ansible.builtin.debug:
-        msg: "{{ date_output.stdout }}"
-
+        msg: "{{ result.stdout }}"
+      loop: "{{ range(1, 60) | list }}"
+      loop_control:
+        pause: 60
