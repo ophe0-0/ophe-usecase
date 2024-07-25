@@ -1,19 +1,14 @@
 ---
-- name: Collect Data every min
+- name: Output time every min
   hosts: all
   become: yes
 
-  vars:
-
   tasks:
-    - name: Collect information from AAP controller
-      aap_info:
-        controller_host: https://aap.example.com
-        controller_username: admin
-        controller_password: "ansible123!"
-        validate_certs: false
-      register: aap_info_result
-      until: aap_info_result is succeeded
-      retries: 10
-      delay: 60
+    - name: Output the time
+      ansible.builtin.command: date
+      register: date_output
+      
+    - name: Print the time
+      ansible.builtin.debug:
+        msg: "{{ date_output.stdout }}"
 
