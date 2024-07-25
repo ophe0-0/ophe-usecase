@@ -1,0 +1,20 @@
+---
+- name: Collect Data every min
+  hosts: all
+  become: yes
+
+  vars:
+  _controller_password: ansible123!
+
+  tasks:
+    - name: Collect information from AAP controller
+      aap_info:
+        controller_host: https://aap.example.com
+        controller_username: admin
+        controller_password: "{{ _controller_password_ }}"
+        validate_certs: false
+      register: aap_info_result
+      until: aap_info_result is succeeded
+      retries: 10
+      delay: 60
+
