@@ -4,14 +4,13 @@
   become: yes
 
   vars:
-  _controller_password: ansible123!
 
   tasks:
     - name: Collect information from AAP controller
       aap_info:
         controller_host: https://aap.example.com
         controller_username: admin
-        controller_password: "{{ _controller_password_ }}"
+        controller_password: "ansible123!"
         validate_certs: false
       register: aap_info_result
       until: aap_info_result is succeeded
