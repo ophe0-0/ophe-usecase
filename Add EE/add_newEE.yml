@@ -7,7 +7,6 @@
     - name: Print the time
       ansible.builtin.command: date
       register: result
-      changed_when: false
       
     - name: Output the time every minute
       ansible.builtin.debug:
