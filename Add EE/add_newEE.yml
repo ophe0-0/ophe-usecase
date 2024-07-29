@@ -4,13 +4,17 @@
   become: yes
 
   tasks:
-    - name: Output the current time
-      ansible.builtin.command: date
-      register: result
-      loop: "{{ range(60) | list }}"
-      delay: 60
+    - name: Output the time every minute
+      block:
+        - name: Get the current time
+          ansible.builtin.command: date
+          register: result
 
-    - name: Print the current time
-      ansible.builtin.debug:
-        msg: "{{ result.stdout }}"
+        - name: Print the current time
+          ansible.builtin.debug:
+            msg: "{{ result.stdout }}"
+        
+        - name: Pause for a minute
+          ansible.builtin.pause:
+            minutes: 1
       loop: "{{ range(60) | list }}"
