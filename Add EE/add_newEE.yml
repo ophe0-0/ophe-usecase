@@ -4,13 +4,14 @@
   become: yes
 
   tasks:
-    - name: Print the current time
-      ansible.builtin.shell: date
-      register: current_time
-      
     - name: Print the current time every minute
-      ansible.builtin.debug:
-        msg: "{{ current_time.stdout }}"
+      ansible.builtin.command: date
+      register: current_time
       loop: "{{ range(1, 60) | list }}"
       loop_control:
         pause: 60
+
+    - name: Print the captured time
+      ansible.builtin.debug:
+        msg: "{{ current_time.stdout }}"
+      when: current_time is defined
