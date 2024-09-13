@@ -5,3 +5,7 @@
   tasks:
     - name: Retrieve Disk Space
       ansible.builtin.gather_facts: 
+
+    - name: Check disk space usage
+      ansible.builtin.command:
+        cmd: df -h
