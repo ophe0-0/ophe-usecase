@@ -4,4 +4,4 @@
 
   tasks:
     - name: Retrieve Disk Space
-      win_disk_facts: 
+      ansible.builtin.gather_facts: 
