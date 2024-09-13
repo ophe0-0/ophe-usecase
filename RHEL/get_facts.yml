@@ -1,0 +1,7 @@
+---
+- name: Pre Health Check
+  hosts: all
+
+  tasks:
+    - name: Retrieve Disk Space
+      win_disk_facts: 
