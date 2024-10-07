@@ -3,9 +3,14 @@
   hosts: all
 
   tasks:
-    - name: Retrieve Disk Space
+    - name: Gather Facts on VM
       ansible.builtin.gather_facts: 
 
     - name: Check disk space usage
       ansible.builtin.command:
         cmd: df -h
+
+    # - name: List users on the system
+    #   ansible.builtin.command:
+    #     cmd: cat /etc/passwd
+
