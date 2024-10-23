@@ -1,11 +1,13 @@
 ---
 - name: Pre Health Check
   hosts: all
+  
+
   vars: 
     - first: john
     - middle: apple
     - last: pear
-    
+
   tasks:
     # - name: Gather Facts on VM
     #   ansible.builtin.gather_facts: 
