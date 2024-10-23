@@ -22,4 +22,4 @@
    
     - name: test whether name is capitalize
       ansible.builtin.debug:
-        msg: "{{ first | capitalize }} {{ middle | capitalize }} {{ last | capitalize }}"
+        msg: "{{ {{ first }} {{ middle }} {{ last }} | capitalized }}"
