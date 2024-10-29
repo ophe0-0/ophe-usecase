@@ -5,12 +5,15 @@
   tasks:
     - name: Gather Facts on VM
       ansible.builtin.gather_facts: 
+      
+      # - name: Check disk space usage
+      #   ansible.builtin.command:
+      #     cmd: df -h
 
-    - name: Check disk space usage
-      ansible.builtin.command:
-        cmd: df -h
+    - name: Generate a Post-Patch HTML report
+      ansible.builtin.template:
+        src: report.j2
+        dest: /home/oliang/SatelliteOutput/{{inventory_hostname}}_postreport.html
+      delegate_to: vm_host
 
-    # - name: List users on the system
-    #   ansible.builtin.command:
-    #     cmd: cat /etc/passwd
-   
+
