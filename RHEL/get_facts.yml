@@ -3,9 +3,19 @@
   hosts: all
 
   tasks:
+    - name: Collect node information
+      ansible.builtin.set_fact:
+        node_info: 
+          hostname: "{{ ansible_hostname }}"
+          ip_address: "{{ ansible_default_ipv4.address }}"
+          linux_version: "{{ ansible_distribution }} {{ ansible_distribution_version }}"
+          report_time: "{{ ansible_date_time.date }} {{ ansible_date_time.time }}"
+  
     - name: Gather Facts on VM
       ansible.builtin.set_fact:
-        all_nodes: "{{ all_nodes | default([]) }}" 
+        all_nodes: "{{ all_nodes | default([]) + [node_info] }}"
+      run_once: true
+      delegate_to: localhost
       
       # - name: Check disk space usage
       #   ansible.builtin.command:

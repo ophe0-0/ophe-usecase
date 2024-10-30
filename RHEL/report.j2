@@ -25,7 +25,7 @@
 </head>
 <body>
    <h1>Post-Patch Report</h1>
-   <p>Report generated on: {{ nodes_data[0].report_time }}</p>
+   <p>Report generated on: {{ nodes_data[1].report_time }}</p>
   
    <h2>System Information</h2>
    <table>
@@ -36,9 +36,9 @@
        </tr>
        {% for node in nodes_data %}
        <tr>
-           <td>{{ node.ansible_facts['fqdn'] }}</td>
-           <td>{{ node.ansible_host }}</td>
-           <td>{{ node.ansible_distribution }}</td>
+           <td>{{ node.hostname }}</td>
+           <td>{{ node.ip_address }}</td>
+           <td>{{ node.linux_version }}</td>
        </tr>
        {% endfor %}
    </table>
