@@ -1,6 +1,8 @@
 ---
 - name: Pre Health Check
   hosts: all
+  vars:
+    all_nodes: []
 
   tasks:
     - name: Collect node information
@@ -13,9 +15,7 @@
   
     - name: Gather Facts on VM
       ansible.builtin.set_fact:
-        all_nodes: "{{ all_nodes | default([]) + [node_info] }}"
-      run_once: true
-      delegate_to: localhost
+        all_nodes: "{{ all_nodes + [node_info] }}"
       
       # - name: Check disk space usage
       #   ansible.builtin.command:
@@ -28,6 +28,7 @@
       vars:
         nodes_data: "{{ all_nodes }}"
       delegate_to: localhost
+      run_once: true
       
 
 
