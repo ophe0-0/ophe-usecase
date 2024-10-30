@@ -4,7 +4,7 @@
 
   tasks:
     - name: Gather Facts on VM
-      ansible.builtin.gather_facts:
+      ansible.builtin.set_facts:
         all_nodes: "{{ all_nodes | default([]) }}" 
       
       # - name: Check disk space usage
