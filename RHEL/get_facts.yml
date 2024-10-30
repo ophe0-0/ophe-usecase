@@ -27,8 +27,7 @@
         dest: /tmp/postreport.html
       vars:
         nodes_data: "{{ all_nodes }}"
-      delegate_to: localhost
-      run_once: true
+
       
 
 
