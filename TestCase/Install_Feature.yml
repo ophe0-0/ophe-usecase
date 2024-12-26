@@ -1,0 +1,9 @@
+---
+- name: Install Features on Windows
+  hosts: all
+  tasks:
+
+    - name: Install IIS (Web-Server only)
+      ansible.windows.win_feature:
+        name: Web-Server
+        state: present
