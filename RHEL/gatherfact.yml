@@ -1,0 +1,14 @@
+---
+- name: Simple GatherFact Test
+  hosts: all
+  vars:
+    all_nodes: []
+
+  tasks:
+    - name: Collect node information
+      ansible.builtin.set_fact:
+        node_info: 
+          hostname: "{{ ansible_hostname }}"
+          ip_address: "{{ ansible_default_ipv4.address }}"
+          linux_version: "{{ ansible_distribution }} {{ ansible_distribution_version }}"
+          report_time: "{{ ansible_date_time.date }} {{ ansible_date_time.time }}"
